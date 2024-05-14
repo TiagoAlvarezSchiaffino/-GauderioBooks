@@ -1,4 +1,4 @@
-const Book = require("../models/Book");
+import { Book} from "../models/book.model";
 
 const postBook = (req, res) => {
   const data = req.body;

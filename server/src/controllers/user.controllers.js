@@ -5,6 +5,8 @@ import bcrypt from "bcryptjs";
 export const getAllUsers = async (req, res) => {
     try {
 
+        res.send('success')
+
     } catch (error) {
         console.log(error);
     }

@@ -10,8 +10,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // endpoints
-app.use('/api/v1/users', userRouter)
-app.use('/api/v1/books', booksRouter)
+app.use('/users', userRouter)
+app.use('/books', booksRouter)
 
 connectDB()
 

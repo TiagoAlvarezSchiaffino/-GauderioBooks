@@ -64,11 +64,3 @@ const deleteBook = (req, res) => {
         res.status(400).send(`The book with ID: ${id} does not exist`);
       });
 }
-
-module.exports = {
-  postBook,
-  getAllBooks,
-  updateBook,
-  getBookById,
-  deleteBook
-};

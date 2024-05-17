@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const Home = () => {
   return (
-    <div className='bg-slate-400'>
-      Home
+    <div>
+      <div className="h-96 text-4xl text-center font-bold p-12">Home1</div>
+      <div className="h-96 text-4xl text-center font-bold p-12">Home2</div>
     </div>
   )
 }

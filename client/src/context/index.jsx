@@ -3,12 +3,16 @@ import { createContext, useState } from "react";
 export const context = createContext();
 
 const ContextProvider = ({children}) => {
-    const [isOpen, setIsOpen] = useState(false);
+    //---------estados y funciones del modal de Registro-------------------------------------------
+    const [isOpen, setIsOpen] = useState(true);// 
+    const openModal = () => setIsOpen(false);//     
+    const closeModal = () => setIsOpen(true);//  
+    const [isLogin, setIsLogin] = useState(false);// 
+   //----------------------------------------------------------------------------------------------
 
     return (
         <context.Provider value={
-            {isOpen,
-            setIsOpen}
+            {isOpen,openModal,closeModal, setIsLogin , isLogin}
         }>
             {children}
         </context.Provider>

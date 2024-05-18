@@ -2,17 +2,20 @@ import React, { useContext, useState } from "react";
 import { context } from "../../context";
 
 const FormSignIn = () => {
-  const [usuario, setUsuario] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [captcha, setCaptcha] = useState(false);
 
-  const { isOpen, setIsLogin } = useContext(context);
+  const {
+    isOpen,
+    setIsLogin,
+    form,
+    error,
+    loading,
+    response,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+  } = useContext(context);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   const handleLogin = () => {
     setIsLogin(true);
   }
@@ -30,10 +33,11 @@ const FormSignIn = () => {
       <input
         className="bg-slate-200 rounded p-2"
         type="text"
-        id="usuario"
-        name="usuario"
-        value={usuario}
-        onChange={(e) => setUsuario(e.target.value)}
+        id="userName"
+        name="userName"
+        value={form.userName}
+        onChange={handleChange}
+        required
       />
       <label className="font-bold py-2 " htmlFor="nombre">
         Nombre y Apellido:
@@ -41,10 +45,11 @@ const FormSignIn = () => {
       <input
         className="bg-slate-200 rounded p-2"
         type="text"
-        id="nombre"
-        name="nombre"
-        value={nombre}
-        onChange={(e) => setNombre(e.target.value)}
+        id="fullName"
+        name="fullName"
+        value={form.fullName}
+        onChange={handleChange}
+        required
       />
       <label className="font-bold py-2" htmlFor="email">
         Email
@@ -54,8 +59,9 @@ const FormSignIn = () => {
         type="email"
         id="email"
         name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={form.email}
+        onChange={handleChange}
+        required
       />
       <label className="font-bold rounded py-2" htmlFor="email">
         Contraseña:
@@ -65,8 +71,9 @@ const FormSignIn = () => {
         type="password"
         id="password"
         name="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={form.password}
+        onChange={handleChange}
+        required
       />
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
         <input
@@ -76,6 +83,7 @@ const FormSignIn = () => {
           name="captcha"
           value={captcha}
           onChange={(e) => setCaptcha(e.target.value)}
+          required
         />
         <label htmlFor="captcha">No soy un robot. 🤖</label>
       </div>

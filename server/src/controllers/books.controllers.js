@@ -2,9 +2,25 @@ import { Book } from "../models/book.model.js";
 
 export const getAllBooks = async (req, res) => {
   try {
-    const result = await Book.find({});
+    var filter = {}
+    const {author, editorial, genre} = req.query
 
-    res.status(201).json(result);
+    if(author){
+      filter = {...filter, author:author}
+    }
+
+    if(editorial){
+      filter = {...filter, editorial:editorial}
+    }
+
+    if(genre){
+      filter = {...filter, genre:genre}
+    }
+
+    const allBooks = await Book.find({});
+    const filteredBooks = await Book.find(filter)
+
+    res.status(201).json({allBooks: allBooks, filteredBooks:filteredBooks});
   } catch (error) {
     res.status(400).send(error.message);
   }

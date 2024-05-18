@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { context } from "../../context";
 
-const Formulario_SignIn = () => {
+const FormSignIn = () => {
   const [usuario, setUsuario] = useState("");
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ const Formulario_SignIn = () => {
   }
 
   return (
-        //-----------------SignIn-----------------------------------------------------------
+    //-----------------SignIn-----------------------------------------------------------
 
     <form className="flex flex-col p-2" onSubmit={handleSubmit}>
       <h1 className="font-bold text-center text-2xl p-2 items-center">
@@ -77,13 +77,14 @@ const Formulario_SignIn = () => {
           value={captcha}
           onChange={(e) => setCaptcha(e.target.value)}
         />
-        <label  htmlFor="captcha">
-          No soy un robot. 🤖
-        </label>
+        <label htmlFor="captcha">No soy un robot. 🤖</label>
       </div>
       <div className="p-5">
         <p className="text-xs">
-          Ya estas registrado? haz click <span className="font-bold cursor-pointer" onClick={handleLogin}>aqui</span>
+        Ya estas registrado? haz click{" "}
+          <span className="font-bold cursor-pointer" onClick={handleLogin}>
+            aqui
+          </span>
         </p>
       </div>
 
@@ -92,4 +93,4 @@ const Formulario_SignIn = () => {
   );
 };
 
-export default Formulario_SignIn;
+export default FormSignIn;

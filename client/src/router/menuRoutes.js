@@ -1,9 +1,7 @@
-import Books from "../components/pages/Books";
+import Books from "../components/pages/Books/Books";
 import Cart from "../components/pages/Cart";
 import Faq from "../components/pages/Faq";
-import Home from "../components/pages/Home";
-import User from "../components/pages/User";
-
+import Home from "../components/pages/home/Home";
 
 export const menuRoutes = [
   {

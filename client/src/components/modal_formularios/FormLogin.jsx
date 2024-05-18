@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { context } from "../../context";
 
-const Formulario_LogIn = () => {
+const FormLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,10 +46,15 @@ const Formulario_LogIn = () => {
       />
       <input className="bg-black text-white mt-8 rounded p-2" type="submit" />
       <div className="p-5">
-        <p className="text-xs">No soy usuario registrado y quiero <span className="font-bold cursor-pointer" onClick={handleLogin}>crear una cuenta.</span></p>
+      <p className="text-xs">
+          No soy usuario registrado y quiero{" "}
+          <span className="font-bold cursor-pointer" onClick={handleLogin}>
+            crear una cuenta.
+          </span>
+        </p>
       </div>
     </form>
   );
 };
 
-export default Formulario_LogIn;
+export default FormLogin;

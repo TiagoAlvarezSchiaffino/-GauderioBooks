@@ -16,6 +16,11 @@ export const useForm = (initialForm) => {
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState(null);
 
+//---------estados y funciones del modal de Registro-------------------------------------------
+const [isOpen, setIsOpen] = useState(false); //
+const openModal = () => setIsOpen(true); //
+const closeModal = () => setIsOpen(false); //
+  
   const validationSignInOk = () => {
     const { userNameError, fullNameError, emailError, passwordError } = errors;
     if (!userNameError && !fullNameError && !emailError && !passwordError) {
@@ -91,15 +96,15 @@ export const useForm = (initialForm) => {
     validationSignInOk();
     axios
       .post(
-        isLogin?'https://gauderiolibros.vercel.app/users/login':
-          "https://gauderiolibros.vercel.app/users/create",
+        isLogin
+          ? "https://gauderiolibros.vercel.app/users/login"
+          : "https://gauderiolibros.vercel.app/users/create",
         form
       )
       .then((res) => {
         console.log(res.data);
-        alert("registro ok");
         setLoginOk(true);
-        setForm(initialForm);
+        closeModal();
 
       })
       .catch((er) => {
@@ -110,6 +115,9 @@ export const useForm = (initialForm) => {
   };
 
   return {
+    isOpen,
+    openModal,
+    closeModal,
     form,
     errors,
     loginOk,

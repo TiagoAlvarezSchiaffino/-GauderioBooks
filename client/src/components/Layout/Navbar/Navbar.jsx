@@ -7,7 +7,9 @@ import Modals from "../../modal_formularios/Modals";
 import { context } from "../../../context";
 
 const Navbar = () => {
-  const { openModal } = useContext(context)
+  const { openModal, loginOk, form, closeModal } = useContext(context);
+
+  loginOk && closeModal;
 
   return (
     <>
@@ -25,9 +27,13 @@ const Navbar = () => {
           <li className="uppercase sm:p-4 p-1">
             <Link to="/faq">compras online</Link>
           </li>
-          <li className="sm:p-5 p-1 cursor-pointer" onClick={openModal}>
+          <li className="sm:p-5 p-1 cursor-pointer flex items-center flex-col" onClick={openModal}>
             {/*-----login------------------------------*/}
-            <FontAwesomeIcon className="h-5" icon={faUser} />
+            <FontAwesomeIcon
+              className={loginOk ? "h-5 text-teal-400 " : "text-white h-5"}
+              icon={faUser}
+            />
+            {loginOk ? <h6 className="h-3 text-teal-400 text-xs">{form.username}</h6> : <></>}
           </li>
           <li className=" sm:p-4 p-1">
             {" "}

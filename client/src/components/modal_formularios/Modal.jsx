@@ -5,7 +5,7 @@ const Modal = ({ children, isOpen, closeModal }) => {
   return (
     <article
       className={`bg-black/75 fixed z-40 top-0 left-0 w-full min-h-screen flex justify-center items-center  ${
-        isOpen && "hidden"
+        !isOpen && "hidden"
       }`}
       onClick={closeModal}
     >

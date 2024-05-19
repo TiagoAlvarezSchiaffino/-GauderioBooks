@@ -13,16 +13,15 @@ const initialForm = {
 //----------------------------------------------------------------------------------------------
 
 const ContextProvider = ({ children }) => {
-  //---------estados y funciones del modal de Registro-------------------------------------------
-  const [isOpen, setIsOpen] = useState(true); //
-  const openModal = () => setIsOpen(false); //
-  const closeModal = () => setIsOpen(true); //
 
   //------------Validacion del form--------------------------------------------------
   const {
     form,
     errors,
     isLogin,
+    isOpen,
+    openModal,
+    closeModal,
     setIsLogin,
     loginOk,
     setLoginOk,

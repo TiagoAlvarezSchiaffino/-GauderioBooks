@@ -5,8 +5,9 @@ const FormSignIn = () => {
   const [captcha, setCaptcha] = useState(false);
 
   const {
-    isOpen,
     setIsLogin,
+    loginOk,
+    setLoginOk,
     form,
     errors,
     loading,
@@ -23,16 +24,16 @@ const FormSignIn = () => {
 
   const handleLogin = () => {
     setIsLogin(true);
-  }
+  };
 
   return (
-    //-----------------SignIn-----------------------------------------------------------
+    // -----------------SignIn-----------------------------------------------------------
 
-    <form className="flex flex-col p-2" onSubmit={handleSubmit}>
+    <form className="flex flex-col p-2" >
       <h1 className="font-bold text-center text-2xl p-2 items-center">
         Registrate
       </h1>
-      <label className="font-bold py-2" htmlFor="usuario">
+      <label className="font-bold py-2" htmlFor="userName">
         Usuario:
       </label>
       <input
@@ -45,8 +46,12 @@ const FormSignIn = () => {
         onKeyUp={handleKeyUpUser}
         required
       />
-      {errors.userNameError && <p className="font-bold text-red-600 text-xs ">Campo requerido, solo se acepta letras, numeros y guiones.</p>} {/*--error en la validacion---*/}
-
+      {errors.userNameError && (
+        <p className="font-bold text-red-600 text-xs ">
+          Campo requerido, solo se acepta letras, numeros y guiones.
+          {/*--error en la validacion---*/}
+        </p>
+      )}
       <label className="font-bold py-2 " htmlFor="fullName">
         Nombre y Apellido:
       </label>
@@ -59,9 +64,13 @@ const FormSignIn = () => {
         onChange={handleChange}
         onKeyUp={handleKeyUpFullName}
         required
-        />     
-        {errors.fullNameError && <p className="font-bold text-red-600 text-xs ">Campo requerido, solo se acepta letras y espacios</p>} {/*--error en la validacion---*/}
-  
+      />
+      {errors.fullNameError && (
+        <p className="font-bold text-red-600 text-xs ">
+          Campo requerido, solo se acepta letras y espacios
+          {/*--error en la validacion---*/}
+        </p>
+      )}
       <label className="font-bold py-2" htmlFor="email">
         Email
       </label>
@@ -76,8 +85,12 @@ const FormSignIn = () => {
         onFocus={handleOnFocusEmail}
         required
       />
-      {errors.emailError && <p className="font-bold text-red-600 text-xs ">Campo requerido, el formato de email es incorrecto.</p>} {/*--error en la validacion--- */}
-
+      {errors.emailError && (
+        <p className="font-bold text-red-600 text-xs ">
+          Campo requerido, el formato de email es incorrecto.{" "}
+          {/*--error en la validacion--- */}
+        </p>
+      )}
       <label className="font-bold rounded py-2" htmlFor="password">
         Contraseña:
       </label>
@@ -92,7 +105,12 @@ const FormSignIn = () => {
         onBlur={handleOnBlurPassword}
         required
       />
-      {errors.passwordError && <p className="font-bold text-red-600 text-xs ">Campo requerido, debe contener al menos una mayuscula, una minuscula, un numero y minimo 8 caracteres</p>} {/*--error en la validacion---*/}
+      {errors.passwordError && (
+        <p className="font-bold text-red-600 text-xs ">
+          Campo requerido, debe contener al menos una mayuscula, una minuscula,
+          un numero y minimo 8 caracteres{/*--error en la validacion---*/}
+        </p>
+      )}
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
         <input
           className="mr-4"
@@ -107,14 +125,13 @@ const FormSignIn = () => {
       </div>
       <div className="p-5">
         <p className="text-xs">
-        Ya estas registrado? haz click{" "}
+          Ya estas registrado? haz click{" "}
           <span className="font-bold cursor-pointer" onClick={handleLogin}>
             aqui
           </span>
         </p>
       </div>
-
-      <input className="bg-black text-white mt-2 rounded p-2" type="submit" />
+      <input className="bg-black text-white mt-2 rounded p-2 cursor-pointer" type="submit" onClick={handleSubmit} />
     </form>
   );
 };

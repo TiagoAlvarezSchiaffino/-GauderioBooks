@@ -3,7 +3,6 @@ import { useForm } from "../components/hooks/useForm";
 
 export const context = createContext();
 
-
 //------------Validacion del form---------------------------------------------------
 const initialForm = {
   userName: "",
@@ -13,22 +12,20 @@ const initialForm = {
 };
 //----------------------------------------------------------------------------------------------
 
-
 const ContextProvider = ({ children }) => {
-
-
-
-
   //---------estados y funciones del modal de Registro-------------------------------------------
   const [isOpen, setIsOpen] = useState(true); //
   const openModal = () => setIsOpen(false); //
   const closeModal = () => setIsOpen(true); //
-  const [isLogin, setIsLogin] = useState(false); //
 
   //------------Validacion del form--------------------------------------------------
   const {
     form,
     errors,
+    isLogin,
+    setIsLogin,
+    loginOk,
+    setLoginOk,
     loading,
     response,
     handleChange,
@@ -42,7 +39,6 @@ const ContextProvider = ({ children }) => {
   } = useForm(initialForm);
 
   //----------------------------------------------------------------------------------------------
-  
 
   return (
     <context.Provider
@@ -52,6 +48,8 @@ const ContextProvider = ({ children }) => {
         closeModal,
         setIsLogin,
         isLogin,
+        loginOk,
+        setLoginOk,
         form,
         errors,
         loading,

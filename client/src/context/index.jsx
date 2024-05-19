@@ -5,8 +5,8 @@ export const context = createContext();
 
 //------------Validacion del form---------------------------------------------------
 const initialForm = {
-  userName: "",
-  fullName: "",
+  username: "",
+  fullname: "",
   email: "",
   password: "",
 };

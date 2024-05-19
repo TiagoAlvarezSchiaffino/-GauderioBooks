@@ -23,8 +23,8 @@ export const createSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         line_items: nuevoArreglo,
         mode: 'payment',
-        success_url: '',
-        cancel_url: ''
+        success_url: 'https://gauderiolibros.vercel.app/',
+        cancel_url: 'https://gauderiolibros.vercel.app/books'
     })
 
     return res.json(session)

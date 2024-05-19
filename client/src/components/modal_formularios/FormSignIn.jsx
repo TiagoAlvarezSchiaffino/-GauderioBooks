@@ -33,15 +33,15 @@ const FormSignIn = () => {
       <h1 className="font-bold text-center text-2xl p-2 items-center">
         Registrate
       </h1>
-      <label className="font-bold py-2" htmlFor="userName">
+      <label className="font-bold py-2" htmlFor="username">
         Usuario:
       </label>
       <input
         className="bg-slate-200 rounded p-2"
         type="text"
-        id="userName"
-        name="userName"
-        value={form.userName}
+        id="username"
+        name="username"
+        value={form.username}
         onChange={handleChange}
         onKeyUp={handleKeyUpUser}
         required
@@ -52,15 +52,15 @@ const FormSignIn = () => {
           {/*--error en la validacion---*/}
         </p>
       )}
-      <label className="font-bold py-2 " htmlFor="fullName">
+      <label className="font-bold py-2 " htmlFor="fullname">
         Nombre y Apellido:
       </label>
       <input
         className="bg-slate-200 rounded p-2"
         type="text"
-        id="fullName"
-        name="fullName"
-        value={form.fullName}
+        id="fullname"
+        name="fullname"
+        value={form.fullname}
         onChange={handleChange}
         onKeyUp={handleKeyUpFullName}
         required

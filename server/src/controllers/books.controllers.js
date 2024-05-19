@@ -16,9 +16,13 @@ export const getAllBooks = async (req, res) => {
     if(genre){
       filter = {...filter, genre:genre}
     }
+    const regexFilter = {};
+    for (const key in filter) {
+      regexFilter[key] = new RegExp(filter[key], 'i');
+    }
 
     const allBooks = await Book.find({});
-    const filteredBooks = await Book.find(filter)
+    const filteredBooks = await Book.find(regexFilter)
 
     res.status(201).json({allBooks: allBooks, filteredBooks:filteredBooks});
   } catch (error) {

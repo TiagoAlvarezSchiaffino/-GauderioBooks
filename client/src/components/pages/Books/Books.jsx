@@ -27,13 +27,13 @@ const Books = () => {
   }
 
   const getAllGenre = () => {
-    const genres = books?.map((book) => book.genre);
+    const genres = books?.flatMap((book) => book.genre.split(',').map((genre) => genre.trim()));
     const allGenres = [...new Set(genres)];
     return allGenres.map((genre) => (
       genre==queryFilter.genre
       ?
       <button className="text-black" key={genre} onClick={handleFilterClick} name={"genre"} value={genre}>
-        {genre}
+        {genre} ⬅
       </button>
       :
       <button className="text-gray-500" key={genre} onClick={handleFilterClick} name={"genre"} value={genre}>
@@ -49,7 +49,7 @@ const Books = () => {
       editorial==queryFilter.editorial
       ?
       <button className="text-black" key={editorial} onClick={handleFilterClick} name={"editorial"} value={editorial}>
-        {editorial}
+        {editorial} ⬅
         </button>
       :
       <button className="text-gray-500" key={editorial} onClick={handleFilterClick} name={"editorial"} value={editorial}>
@@ -65,7 +65,7 @@ const Books = () => {
       author==queryFilter.author
       ?
       <button className="text-black" key={author} onClick={handleFilterClick} name={"author"} value={author}>
-        {author}
+        {author} ⬅
       </button>
       :
       <button className="text-gray-500" key={author} onClick={handleFilterClick} name={"author"} value={author}>

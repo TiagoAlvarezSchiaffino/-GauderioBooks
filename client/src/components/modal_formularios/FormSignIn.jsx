@@ -12,7 +12,12 @@ const FormSignIn = () => {
     loading,
     response,
     handleChange,
-    handleKeyUp,
+    handleKeyUpUser,
+    handleKeyUpFullName,
+    handleOnFocusEmail,
+    handleOnBlurEmail,
+    handleOnBlurPassword,
+    handleOnFocusPassword,
     handleSubmit,
   } = useContext(context);
 
@@ -37,11 +42,12 @@ const FormSignIn = () => {
         name="userName"
         value={form.userName}
         onChange={handleChange}
-        onKeyUp={handleKeyUp}
+        onKeyUp={handleKeyUpUser}
         required
       />
-      {errors.userName && <p className="font-bold text-red-600 text-xs ">{errors.userName}</p>} {/*--error en la validacion---*/}
-      <label className="font-bold py-2 " htmlFor="nombre">
+      {errors.userNameError && <p className="font-bold text-red-600 text-xs ">Campo requerido, solo se acepta letras, numeros y guiones.</p>} {/*--error en la validacion---*/}
+
+      <label className="font-bold py-2 " htmlFor="fullName">
         Nombre y Apellido:
       </label>
       <input
@@ -51,11 +57,11 @@ const FormSignIn = () => {
         name="fullName"
         value={form.fullName}
         onChange={handleChange}
-        onKeyUp={handleKeyUp}
+        onKeyUp={handleKeyUpFullName}
         required
-      />
-      {console.log(errors.email,errors.fullName, errors.userName)}
-      {errors.fullName && <p className="font-bold text-red-600 text-xs ">{errors.fullName}</p>} {/*--error en la validacion---*/}
+        />     
+        {errors.fullNameError && <p className="font-bold text-red-600 text-xs ">Campo requerido, solo se acepta letras y espacios</p>} {/*--error en la validacion---*/}
+  
       <label className="font-bold py-2" htmlFor="email">
         Email
       </label>
@@ -66,10 +72,12 @@ const FormSignIn = () => {
         name="email"
         value={form.email}
         onChange={handleChange}
-        onKeyUp={handleKeyUp}
+        onBlur={handleOnBlurEmail}
+        onFocus={handleOnFocusEmail}
         required
       />
-      {errors.email && <p className="font-bold text-red-600 text-xs ">{errors.email}</p>} {/*--error en la validacion---*/}
+      {errors.emailError && <p className="font-bold text-red-600 text-xs ">Campo requerido, el formato de email es incorrecto.</p>} {/*--error en la validacion--- */}
+
       <label className="font-bold rounded py-2" htmlFor="password">
         Contraseña:
       </label>
@@ -80,9 +88,11 @@ const FormSignIn = () => {
         name="password"
         value={form.password}
         onChange={handleChange}
+        onFocus={handleOnFocusPassword}
+        onBlur={handleOnBlurPassword}
         required
       />
-      {errors.password && <p className="font-bold text-red-600 text-xs ">{errors.password}</p>} {/*--error en la validacion---*/}
+      {errors.passwordError && <p className="font-bold text-red-600 text-xs ">Campo requerido, debe contener al menos una mayuscula, una minuscula, un numero y minimo 8 caracteres</p>} {/*--error en la validacion---*/}
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
         <input
           className="mr-4"

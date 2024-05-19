@@ -1,9 +1,10 @@
 import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
-export default function Card({image, title, price}) {
+export default function Card({id, image, title, price }) {
     return (
-      <div className="flex flex-col w-full h-full shadow-xl rounded-2xl">
+      <Link to={`/books/${id}`} className="flex flex-col w-full h-full shadow-xl rounded-2xl">
         <img
           className="object-cover w-full rounded-t-lg"
           src={image}
@@ -22,6 +23,6 @@ export default function Card({image, title, price}) {
             </button>
           </div>
         </div>
-      </div>
+      </Link>
     );
   }

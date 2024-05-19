@@ -113,8 +113,8 @@ const Books = () => {
           </div>
         </aside>
         <div className="grid max-w-5xl grid-cols-2 gap-4 mt-0 md:grid-cols-3">
-          {filteredBooks?.length > 0?filteredBooks.map(({ image, title, price }) => (
-              <Card image={image} title={title} price={price} key={title} />
+          {filteredBooks?.length > 0?filteredBooks.map(({_id, image, title, price }) => (
+              <Card image={image} title={title} price={price} id={_id} key={_id} />
             )):<h2>No hay libros con estas caracteristicas</h2>}
         </div>
       </main>

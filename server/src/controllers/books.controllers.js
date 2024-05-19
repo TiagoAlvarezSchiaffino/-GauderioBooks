@@ -3,19 +3,25 @@ import { Book } from "../models/book.model.js";
 export const getAllBooks = async (req, res) => {
   try {
     var filter = {}
-    const {author, editorial, genre} = req.query
+    const {author, editorial, genre, search} = req.query
 
-    if(author){
-      filter = {...filter, author:author}
+    if(search){
+      filter = {...filter, title:search}
+    }
+    else{
+      if(author){
+            filter = {...filter, author:author}
+          }
+
+      if(editorial){
+        filter = {...filter, editorial:editorial}
+      }
+
+      if(genre){
+        filter = {...filter, genre:genre}
+      }
     }
 
-    if(editorial){
-      filter = {...filter, editorial:editorial}
-    }
-
-    if(genre){
-      filter = {...filter, genre:genre}
-    }
     const regexFilter = {};
     for (const key in filter) {
       regexFilter[key] = new RegExp(filter[key], 'i');

@@ -8,11 +8,11 @@ const FormSignIn = () => {
     isOpen,
     setIsLogin,
     form,
-    error,
+    errors,
     loading,
     response,
     handleChange,
-    handleBlur,
+    handleKeyUp,
     handleSubmit,
   } = useContext(context);
 
@@ -37,8 +37,10 @@ const FormSignIn = () => {
         name="userName"
         value={form.userName}
         onChange={handleChange}
+        onKeyUp={handleKeyUp}
         required
       />
+      {errors.userName && <p className="font-bold text-red-600 text-xs ">{errors.userName}</p>} {/*--error en la validacion---*/}
       <label className="font-bold py-2 " htmlFor="nombre">
         Nombre y Apellido:
       </label>
@@ -49,8 +51,11 @@ const FormSignIn = () => {
         name="fullName"
         value={form.fullName}
         onChange={handleChange}
+        onKeyUp={handleKeyUp}
         required
       />
+      {console.log(errors.email,errors.fullName, errors.userName)}
+      {errors.fullName && <p className="font-bold text-red-600 text-xs ">{errors.fullName}</p>} {/*--error en la validacion---*/}
       <label className="font-bold py-2" htmlFor="email">
         Email
       </label>
@@ -61,9 +66,11 @@ const FormSignIn = () => {
         name="email"
         value={form.email}
         onChange={handleChange}
+        onKeyUp={handleKeyUp}
         required
       />
-      <label className="font-bold rounded py-2" htmlFor="email">
+      {errors.email && <p className="font-bold text-red-600 text-xs ">{errors.email}</p>} {/*--error en la validacion---*/}
+      <label className="font-bold rounded py-2" htmlFor="password">
         Contraseña:
       </label>
       <input
@@ -75,6 +82,7 @@ const FormSignIn = () => {
         onChange={handleChange}
         required
       />
+      {errors.password && <p className="font-bold text-red-600 text-xs ">{errors.password}</p>} {/*--error en la validacion---*/}
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
         <input
           className="mr-4"

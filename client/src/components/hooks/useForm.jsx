@@ -94,7 +94,8 @@ const closeModal = () => setIsOpen(false); //
   const handleSubmit = (e) => {
     e.preventDefault();
     validationSignInOk();
-    axios
+    if(formIsOkRef.current){
+        axios
       .post(
         isLogin
           ? "https://gauderiolibros.vercel.app/users/login"
@@ -112,6 +113,8 @@ const closeModal = () => setIsOpen(false); //
         alert("Error en el registro, por favor vuelve a intentarlo");
         setLoginOk(false);
       });
+    }
+    
   };
 
   return {

@@ -7,9 +7,7 @@ import Modals from "../../modal_formularios/Modals";
 import { context } from "../../../context";
 
 const Navbar = () => {
-  const { openModal, loginOk, form, closeModal } = useContext(context);
-
-  loginOk && closeModal;
+  const { openModal, loginOk, form } = useContext(context);
 
   return (
     <>

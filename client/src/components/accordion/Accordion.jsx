@@ -1,7 +1,5 @@
 import React, { useRef, useState } from "react";
 import {useClickAway} from 'react-use';
-{
-}
 
 const Accordion = ({
   title,
@@ -16,7 +14,7 @@ const Accordion = ({
   const handleOutsideClick = () => {
     setTimeout(() => {
       setAccordionOpen(false);
-    }, 300);
+    }, 200);
     } 
   useClickAway(acordionRef, handleOutsideClick)
    
@@ -36,8 +34,8 @@ const Accordion = ({
         className={`${classContent} grid overflow-hidden transition-all duration-1000 ease-in cursor-pointer 
             ${
               accordionOpen
-                ? "grid-rows-[1fr] opacity-100 max-h-96"
-                : "grid-rows-[0fr] opacity-0 max-h-0"
+                ? "grid-rows-[1fr] opacity-100  inline-block"
+                : "grid-rows-[0fr] opacity-0 h-0 p-0"
             }`}
       >
         {accordionOpen && content}

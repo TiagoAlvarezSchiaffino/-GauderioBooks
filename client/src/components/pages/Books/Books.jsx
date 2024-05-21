@@ -10,7 +10,6 @@ const Books = () => {
     author: "",
     search: "",
   });
-  const [search, setSearch] = useState("");
 
   let urlData = `https://gauderiolibros.vercel.app/books/?genre=${queryFilter.genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
   useEffect(() => {
@@ -27,18 +26,18 @@ const Books = () => {
 
   const handleFilterClick = (e) => {
     const { name, value } = e.target;
+    if(queryFilter[name]==value){
+      setQueryFilter({ ...queryFilter, [name]: "", search:"" });
+    }else{
+      setQueryFilter({ ...queryFilter, [name]: value, search:"" });
 
-    setQueryFilter({ ...queryFilter, [name]: value });
+    }
   };
-
   const handlerOnChangeSearchBar = (e) => {
-    setSearch(e.target.value);
-  };
+    const {value} = e.target
+    setQueryFilter({...queryFilter, search:value} )
+  }
 
-  const handlerClickSearchBar = (e) => {
-    e.preventDefault();
-    setQueryFilter({ genre: "", editorial: "", author: "", search: search });
-  };
 
   const getAllGenre = () => {
     const genres = books?.flatMap((book) =>
@@ -48,17 +47,17 @@ const Books = () => {
     return allGenres.map((genre) =>
       genre == queryFilter.genre ? (
         <button
-          className="text-black"
+          className="bg-[#822626] text-white rounded p-1 "
           key={genre}
           onClick={handleFilterClick}
           name={"genre"}
           value={genre}
         >
-          {genre} ⬅
+          {genre} 
         </button>
       ) : (
         <button
-          className="text-gray-500"
+          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
           key={genre}
           onClick={handleFilterClick}
           name={"genre"}
@@ -76,17 +75,17 @@ const Books = () => {
     return allEditorials.map((editorial) =>
       editorial == queryFilter.editorial ? (
         <button
-          className="text-black"
+          className="bg-[#822626] text-white rounded p-1"
           key={editorial}
           onClick={handleFilterClick}
           name={"editorial"}
           value={editorial}
         >
-          {editorial} ⬅
+          {editorial}
         </button>
       ) : (
         <button
-          className="text-[#525252]"
+          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
           key={editorial}
           onClick={handleFilterClick}
           name={"editorial"}
@@ -104,7 +103,7 @@ const Books = () => {
     return AllAuthor.map((author) =>
       author == queryFilter.author ? (
         <button
-          className="bg-[#262525] text-white rounded p-1"
+          className="bg-[#822626] text-white rounded p-1"
           key={author}
           onClick={handleFilterClick}
           name={"author"}
@@ -114,7 +113,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-[#525252]"
+          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
           key={author}
           onClick={handleFilterClick}
           name={"author"}
@@ -134,100 +133,36 @@ const Books = () => {
             Productos
           </h1>
           <p className="text-sm text-[#822626] w-1/6 font-semibold">
-            {filteredBooks ? filteredBooks?.length : 0} articulos
+            {filteredBooks ? filteredBooks?.length : 0} artículos
           </p>
           <div className="flex w-2/6">
-            <input
-              value={search}
-              onChange={handlerOnChangeSearchBar}
-              type="text"
-              className="w-2/3 border-solid border-1 rounded border-gray-400 text-gray-600"
-            />
-            <button
-              onClick={handlerClickSearchBar}
-              className="w-1/3 text-[#822626] font-semibold"
-            >
-              Buscar
-            </button>
+
+            <input value={queryFilter.search} onChange={handlerOnChangeSearchBar} type="text" placeholder="Búsqueda..." className="w-full border-solid border-1 border-gray-400 text-gray-600 rounded" />
+
           </div>
         </div>
         <hr />
 
         <div className="w-full flex-1 items-start md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-1">
           <aside className="w-full md:sticky md:block">
-            <h4 className="text-lg font-semibold text-[#822626]">Género</h4>
-            <div className="flex flex-col items-start gap-2 py-2 my-2 overflow-auto text-sm">
-              {queryFilter.genre == "" ? (
-                <button
-                  className="text-black"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"genre"}
-                  value={""}
-                >
-                  All
-                </button>
-              ) : (
-                <button
-                  className="text-gray-500"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"genre"}
-                  value={""}
-                >
-                  All
-                </button>
-              )}
+            <div className="flex flex-wrap gap-3 pb-5">
+                {queryFilter.genre?<button onClick={handleFilterClick} className="bg-[#822626] px-3 py-1 text-white shadow-md shadow-slate-500 rounded flex gap-2" name="genre">{queryFilter.genre}</button>:null}
+                {queryFilter.editorial?<button onClick={handleFilterClick} className="bg-[#822626] px-3 py-1 text-white shadow-md shadow-slate-500 rounded" name="editorial">{queryFilter.editorial}</button>:null}
+                {queryFilter.author?<button onClick={handleFilterClick} className="bg-[#822626] px-3 py-1 text-white shadow-md shadow-slate-500 rounded" name="author">{queryFilter.author}</button>:null}
+            </div>
+            <h4 className="text-lg font-semibold text-[#822626] ">Género</h4>
+            <div className="flex flex-col items-start gap-2 py-2 my-2 overflow-auto text-sm ">
+            
               {books && getAllGenre()}
             </div>
             <h4 className="text-lg font-semibold text-[#822626]">Editorial</h4>
             <div className="flex flex-col items-start gap-2 py-2 my-2 overflow-auto text-sm">
-              {queryFilter.editorial == "" ? (
-                <button
-                  className="text-black"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"editorial"}
-                  value={""}
-                >
-                  All
-                </button>
-              ) : (
-                <button
-                  className="text-gray-500"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"editorial"}
-                  value={""}
-                >
-                  All
-                </button>
-              )}
+              
               {books && getAllEditorial()}
             </div>
             <h4 className="text-lg font-semibold text-[#822626]">Autor</h4>
             <div className="flex flex-col items-start gap-2 py-2 my-2 overflow-auto text-sm">
-              {queryFilter.author == "" ? (
-                <button
-                  className="text-black"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"author"}
-                  value={""}
-                >
-                  All
-                </button>
-              ) : (
-                <button
-                  className="text-gray-500"
-                  key={"all"}
-                  onClick={handleFilterClick}
-                  name={"author"}
-                  value={""}
-                >
-                  All
-                </button>
-              )}
+              
               {books && getAllAuthor()}
             </div>
           </aside>
@@ -235,11 +170,12 @@ const Books = () => {
             className={`${
               filteredBooks?.length > 0
                 ? "grid max-w-5xl grid-cols-1 sm:grid-cols-2 gap-4 mt-0 xl:grid-cols-3"
-                : "flex justify-center items-center flex-col w-full h-full"
+                : "flex justify-start items-start flex-col w-full h-full"
             }`}
           >
-            {filteredBooks?.length > 0 ? (
-              filteredBooks.map(({ _id, image, title, price }) => (
+            {books?.length > 0 ? (
+              filteredBooks?.length > 0
+              ?filteredBooks?.map(({ _id, image, title, price }) => (
                 <Card
                   image={image}
                   title={title}
@@ -248,6 +184,7 @@ const Books = () => {
                   key={_id}
                 />
               ))
+              : <h2>No hay libros disponibles con esta descripción</h2>
             ) : (
               <div className="flex justify-center items-center flex-col w-full h-full">
                 <p className="text-lg text-[#822626] font-semibold">

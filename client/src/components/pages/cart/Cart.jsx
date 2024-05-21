@@ -4,52 +4,56 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 
+
 const Cart = () => {
   const { products, deleteAllProducts, deleteProduct,totalPrice } =
     useContext(context);
   const navigate = useNavigate()
   return (
-    <main className="w-full min-h-[calc(100vh-150px)]">
+    <main className="w-full min-h-[calc(100vh-150px)] ">
       <div className="w-3/5 m-auto">
         {products.length > 0 ? (
-          <div className="w-full mt-12">
-          <div className="bg-[#525252] text-white p-2">
-            <h1 className="text-2xl">Detalle de pedido</h1>
+          <div className="w-full my-10">
+          <div className="bg-[#525252] text-white p-2 rounded-t">
+            <h1 className="text-2xl ">Detalle de pedido</h1>
           </div>
-            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-b border-gray-400">
+            <div className="grid w-full grid-cols-9 p-2 bg-gray-200   border-b border-gray-400">
               <span className="col-span-2 font-medium text-center">Artículo</span>
               <span className="col-span-2 font-medium text-center">Título</span>
               <span className="col-span-2 font-medium text-center">Cantidad</span>
               <span className="col-span-2 font-medium text-center">Precio</span>
-
+              
             </div>
-            {products.map((product) => (
+            <div className="overflow-y-scroll h-[28rem]">
+              {products.map((product) => (
               <div
-                className="grid items-center grid-cols-9 p-2 bg-gray-200"
+                className="grid items-center grid-cols-9 px-2 py-3 bg-gray-200 "
                 key={product.id}
               >
-                <img className="w-20 col-span-2 justify-self-center" src={product.image} alt={product.title} />
+                <img className="w-20 col-span-2 justify-self-center  rounded " src={product.image} alt={product.title} />
                 <span className="col-span-2 text-center">{product.title}</span>
                 <span className="col-span-2 text-center">{product.quantity}</span>
                 <span className="col-span-2 text-center">$ {product.price}</span>
                 <button onClick={() => {deleteProduct(product.id)}} className="text-center "><FontAwesomeIcon className="h-5 hover:text-[#822626]" icon={faTrash} /></button>
               </div>
             ))}
-            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-t border-gray-400">
+            </div>
+            
+            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-t border-gray-400 rounded-b">
               <div className="col-span-4"><button onClick={deleteAllProducts} className="p-2 underline rounded-sm transition-colors border hover:border-[#822626] hover:text-[#822626]">Eliminar todo</button></div>
               <span className="col-span-2 font-bold text-center">Total:</span>
               <span className="col-span-2 text-center">$ {totalPrice}</span>
-
+              
             </div>
             <div className="flex flex-row items-end justify-end w-full">
-            <button className="py-3 px-2 mt-5 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]">IR AL METODO DE PAGO</button>
+            <button onClick={console.log(products)} className="py-3 px-2 mt-5 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]">IR AL METODO DE PAGO</button>
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center w-full mt-12 bg-gray-200">
+          <div className="flex items-center justify-center w-full h-[30rem] rounded mt-12 mb-0 bg-gray-200">
             <div className="flex flex-col items-center justify-center py-5">
-            <FontAwesomeIcon className="h-16" icon={faCartShopping} />
-              <span className="mb-2 text-lg">Aún no has agregado artículos a tu compra.</span>
+            <FontAwesomeIcon className="h-16 py-3" icon={faCartShopping} />
+              <span className="mb-2 text-lg py-3">Aún no has agregado artículos a tu compra.</span>
               <span>Busca los libros que más te gusten.</span>
               <button onClick={() => {navigate("/books")}} className="py-3 px-2 mt-5 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]">Descubrir productos</button>
             </div>

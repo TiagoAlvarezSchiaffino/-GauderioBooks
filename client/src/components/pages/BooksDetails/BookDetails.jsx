@@ -29,8 +29,8 @@ export default function BooksDetails() {
     <main className="w-full">
       <div className="w-3/5 m-auto">
         <div className="flex flex-col justify-center w-full gap-5 my-12 md:flex-row">
-          <div className="flex items-center justify-center w-full">
-            <img src={book?.image} alt={book?.title} className="w-80" />
+          <div className="flex items-center justify-center w-full ">
+            <img src={book?.image} alt={book?.title} className="w-80 rounded" />
           </div>
           <div className="flex flex-col justify-between md:w-2/3">
             <div className="divide-y">

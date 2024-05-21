@@ -13,6 +13,7 @@ const bookSchema = new Schema({
   year: {
     type: Number,
     required: true,
+    unique: false,
   },
   editorial: {
     type: String,

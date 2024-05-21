@@ -57,7 +57,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
           key={genre}
           onClick={handleFilterClick}
           name={"genre"}
@@ -85,7 +85,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
           key={editorial}
           onClick={handleFilterClick}
           name={"editorial"}
@@ -113,7 +113,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300  hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
           key={author}
           onClick={handleFilterClick}
           name={"author"}

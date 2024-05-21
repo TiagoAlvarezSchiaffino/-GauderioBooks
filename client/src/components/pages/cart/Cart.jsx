@@ -24,10 +24,10 @@ const Cart = () => {
               <span className="col-span-2 font-medium text-center">Precio</span>
               
             </div>
-            <div className="overflow-y-scroll h-[28rem]">
+            <div className={`overflow-y-scroll ${products.length<3?'h-[18rem]':'h-[28rem]'} bg-gray-200`}>
               {products.map((product) => (
               <div
-                className="grid items-center grid-cols-9 px-2 py-3 bg-gray-200 "
+                className="grid items-center grid-cols-9 px-2 py-3"
                 key={product.id}
               >
                 <img className="w-20 col-span-2 justify-self-center  rounded " src={product.image} alt={product.title} />

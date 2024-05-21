@@ -7,20 +7,19 @@ import { context } from "../../../../context";
 export default function Card({ id, image, title, price, info }) {
   const { addProduct } = useContext(context);
 
-  const handleClick = (title, price, quantity) => {
-    addProduct({ title, price, quantity });
+  const handleClick = (title, price, quantity,image) => {
+    addProduct({ title, price, quantity,image });
   };
 
   return (
-    <Link
-      to={`/books/${id}`}
-      className="relative flex flex-col w-full h-full max-w-xs m-auto rounded-lg shadow-md"
-    >
-      <img
-        className="object-fill h-[350px] rounded-t-lg"
-        src={image}
-        alt={`portada del libro ${title}`}
-      />
+    <div className="relative flex flex-col w-full h-full max-w-xs m-auto overflow-hidden rounded-lg shadow-md">
+      <Link to={`/books/${id}`} className="h-[350px]">
+        <img
+          className="object-fill w-full rounded-t-lg"
+          src={image}
+          alt={`portada del libro ${title}`}
+        />
+      </Link>
       <div
         className={`${
           info ? "h-20" : "h-full"
@@ -39,14 +38,14 @@ export default function Card({ id, image, title, price, info }) {
           </p>
           <button
             onClick={() => {
-              handleClick(title, price, 1);
+              handleClick(title, price, 1, image);
             }}
-            className="flex items-center z-50 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-[#690202] hover:text-[#262525] hover:bg-[#822626] transition-colors"
+            className="flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-[#690202] hover:text-[#262525] hover:bg-[#822626] transition-colors"
           >
             <FontAwesomeIcon className="h-5" icon={faCartPlus} />
           </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }

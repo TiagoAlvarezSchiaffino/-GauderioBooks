@@ -1,16 +1,63 @@
-import React, { useContext } from 'react';
-import { context } from '../../../context';
+import { useContext } from "react";
+import { context } from "../../../context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router";
 
 const Cart = () => {
-  const { products,
-    addProduct,
-    deleteAllProducts,
-    deleteProduct, } = useContext(context);
-
-    console.log(products)
+  const { products, deleteAllProducts, deleteProduct,totalPrice } =
+    useContext(context);
+  const navigate = useNavigate()
   return (
-    <div className=''>{products[0]?.title}</div>
-  )
-}
+    <main className="w-full min-h-[calc(100vh-150px)]">
+      <div className="w-3/5 m-auto">
+        {products.length > 0 ? (
+          <div className="w-full mt-12">
+          <div className="bg-[#525252] text-white p-2">
+            <h1 className="text-2xl">Detalle de pedido</h1>
+          </div>
+            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-b border-gray-400">
+              <span className="col-span-2 font-medium text-center">Artículo</span>
+              <span className="col-span-2 font-medium text-center">Título</span>
+              <span className="col-span-2 font-medium text-center">Cantidad</span>
+              <span className="col-span-2 font-medium text-center">Precio</span>
+
+            </div>
+            {products.map((product) => (
+              <div
+                className="grid items-center grid-cols-9 p-2 bg-gray-200"
+                key={product.id}
+              >
+                <img className="w-20 col-span-2 justify-self-center" src={product.image} alt={product.title} />
+                <span className="col-span-2 text-center">{product.title}</span>
+                <span className="col-span-2 text-center">{product.quantity}</span>
+                <span className="col-span-2 text-center">$ {product.price}</span>
+                <button onClick={() => {deleteProduct(product.id)}} className="text-center "><FontAwesomeIcon className="h-5 hover:text-[#822626]" icon={faTrash} /></button>
+              </div>
+            ))}
+            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-t border-gray-400">
+              <div className="col-span-4"><button onClick={deleteAllProducts} className="p-2 underline rounded-sm transition-colors border hover:border-[#822626] hover:text-[#822626]">Eliminar todo</button></div>
+              <span className="col-span-2 font-bold text-center">Total:</span>
+              <span className="col-span-2 text-center">$ {totalPrice}</span>
+
+            </div>
+            <div className="flex flex-row items-end justify-end w-full">
+            <button className="py-3 px-2 mt-5 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]">IR AL METODO DE PAGO</button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center w-full mt-12 bg-gray-200">
+            <div className="flex flex-col items-center justify-center py-5">
+            <FontAwesomeIcon className="h-16" icon={faCartShopping} />
+              <span className="mb-2 text-lg">Aún no has agregado artículos a tu compra.</span>
+              <span>Busca los libros que más te gusten.</span>
+              <button onClick={() => {navigate("/books")}} className="py-3 px-2 mt-5 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]">Descubrir productos</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </main>
+  );
+};
 
 export default Cart;

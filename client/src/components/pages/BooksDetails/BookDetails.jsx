@@ -19,8 +19,8 @@ export default function BooksDetails() {
   const { products, addProduct, deleteAllProducts, deleteProduct } =
     useContext(context);
 
-  const handleClick = (title, price, quantity) => {
-    addProduct({ title, price, quantity });   
+  const handleClick = (title, price, quantity,image) => {
+    addProduct({ title, price, quantity,image });   
 
     navigate('/books')
   };
@@ -94,7 +94,7 @@ export default function BooksDetails() {
               </div>
               <button
                 onClick={() => {
-                  handleClick(book.title, book.price, count);
+                  handleClick(book.title, book.price, count, book.image);
                 }}
                 className="flex-1 py-3 text-white transition-colors bg-[#690202] rounded-sm hover:bg-[#262525]"
               >

@@ -4,7 +4,6 @@ import { useCart } from "../components/hooks/useCart";
 
 export const context = createContext();
 
-//------------Validacion del form---------------------------------------------------
 const initialForm = {
   username: "",
   fullname: "",
@@ -16,8 +15,7 @@ const ContextProvider = ({ children }) => {
   const { products,
     addProduct,
     deleteAllProducts,
-    deleteProduct, } = useCart();
-
+    deleteProduct,totalPrice } = useCart();
   const {
     form,
     errors,
@@ -49,6 +47,7 @@ const ContextProvider = ({ children }) => {
         closeModal,
         handleCloseSesion,
         isLogin,
+        setIsLogin,
         loginOk,
         setLoginOk,
         form,
@@ -64,9 +63,10 @@ const ContextProvider = ({ children }) => {
         handleOnFocusPassword,
         handleSubmit,
         products,
-        addProduct,
-        deleteAllProducts,
-        deleteProduct,
+    addProduct,
+    deleteAllProducts,
+    deleteProduct,
+    totalPrice,
       }}
     >
       {children}

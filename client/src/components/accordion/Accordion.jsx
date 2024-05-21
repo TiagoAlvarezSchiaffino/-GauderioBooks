@@ -14,7 +14,9 @@ const Accordion = ({
   const acordionRef = useRef(null);
 
   const handleOutsideClick = () => {
-         setAccordionOpen(false);
+    setTimeout(() => {
+      setAccordionOpen(false);
+    }, 300);
     } 
   useClickAway(acordionRef, handleOutsideClick)
    
@@ -31,11 +33,11 @@ const Accordion = ({
       
       <div
        
-        className={`${classContent} grid overflow-hidden transition-all duration-1000 ease-in-out cursor-pointer 
+        className={`${classContent} grid overflow-hidden transition-all duration-1000 ease-in cursor-pointer 
             ${
               accordionOpen
-                ? "grid-rows-[1fr] opacity-100 "
-                : "grid-rows-[0fr] opacity-0 "
+                ? "grid-rows-[1fr] opacity-100 max-h-96"
+                : "grid-rows-[0fr] opacity-0 max-h-0"
             }`}
       >
         {accordionOpen && content}

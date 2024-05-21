@@ -5,7 +5,7 @@ const Faq = () => {
   
   return (
     <main className="w-full pb-44">
-      <div className="w-3/5	m-auto py-5">
+      <div className="w-[90%] sm:w-[80%] md:w-[75%] lg:w-[65%]	m-auto py-5">
         <h1 className="text-4xl p-3 bg-gray-200 rounded text-[#690202] font-bold ">
           Preguntas frecuentes:
         </h1>

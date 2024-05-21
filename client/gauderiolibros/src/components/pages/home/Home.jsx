@@ -1,16 +1,16 @@
-import Carrousel from "./HomeComponents/Carrousel";
+import BannerCarrousel from "./HomeComponents/BannerCarrousel";
 import Presentation from "./HomeComponents/Presentation";
 
 const Home = () => {
-  
   return (
-    <div>
-      <div className="h-[500px] text-4xl text-center font-bold">
-        <Carrousel />
-        <Presentation />
+    <main className="w-full">
+      <BannerCarrousel />
+      <div className="m-auto w-[90%] sm:w-[80%] md:w-[75%] lg:w-[65%]">
+        <div>
+          <Presentation />
+        </div>
       </div>
-    </div>
-  )
-}
-
+    </main>
+  );
+};
 export default Home;

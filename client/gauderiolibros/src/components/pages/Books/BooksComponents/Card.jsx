@@ -15,7 +15,7 @@ export default function Card({ id, image, title, price, info }) {
     <div className="relative flex flex-col w-full h-full max-w-xs m-auto overflow-hidden rounded-lg shadow-md">
       <Link to={`/books/${id}`} className="h-[350px]">
         <img
-          className="object-fill w-full rounded-t-lg"
+          className="object-fill w-full h-full rounded-t-lg"
           src={image}
           alt={`portada del libro ${title}`}
         />

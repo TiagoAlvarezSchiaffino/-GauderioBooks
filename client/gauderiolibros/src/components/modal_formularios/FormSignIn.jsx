@@ -11,7 +11,7 @@ const FormSignIn = () => {
     form,
     errors,
     loading,
-    response,
+    
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,
@@ -27,8 +27,6 @@ const FormSignIn = () => {
   };
 
   return (
-    // -----------------SignIn-----------------------------------------------------------
-
     <form className="flex flex-col p-2" >
       <h1 className="font-bold text-center text-2xl p-2 items-center">
         Registrate
@@ -105,12 +103,12 @@ const FormSignIn = () => {
         onBlur={handleOnBlurPassword}
         required
       />
-      {errors.passwordError && (
-        <p className="font-bold text-red-600 text-xs ">
-          Campo requerido, debe contener al menos una mayuscula, una minuscula,
-          un numero y minimo 8 caracteres{/*--error en la validacion---*/}
+      
+        <p className={` ${errors.passwordError? 'font-bold text-red-600':'text-gray-600' } p-1 text-xs`}>
+          Campo requerido, debe contener al menos una mayúscula, una minúscula,
+          un número y mínimo 8 caracteres{/*--error en la validacion---*/}
         </p>
-      )}
+      
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
         <input
           className="mr-4"
@@ -127,11 +125,11 @@ const FormSignIn = () => {
         <p className="text-xs">
           Ya estas registrado? haz click{" "}
           <span className="font-bold cursor-pointer" onClick={handleLogin}>
-            aqui
+            aquí
           </span>
         </p>
       </div>
-      <input className="bg-black text-white mt-2 rounded p-2 cursor-pointer" type="submit" onClick={handleSubmit} />
+      <input className="bg-[#822626] text-white mt-2 rounded p-2 cursor-pointer" type="submit" onClick={handleSubmit} />
     </form>
   );
 };

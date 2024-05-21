@@ -4,13 +4,6 @@ import { useCart } from "../components/hooks/useCart";
 
 export const context = createContext();
 
-const initialForm = {
-  username: "",
-  fullname: "",
-  email: "",
-  password: "",
-};
-
 const ContextProvider = ({ children }) => {
   const { products,
     addProduct,
@@ -28,7 +21,7 @@ const ContextProvider = ({ children }) => {
     setLoginOk,
     handleCloseSesion,
     loading,
-    response,
+    
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,
@@ -37,7 +30,7 @@ const ContextProvider = ({ children }) => {
     handleOnBlurPassword,
     handleOnFocusPassword,
     handleSubmit,
-  } = useForm(initialForm);
+  } = useForm();
 
   return (
     <context.Provider
@@ -53,7 +46,7 @@ const ContextProvider = ({ children }) => {
         form,
         errors,
         loading,
-        response,
+        
         handleChange,
         handleKeyUpUser,
         handleKeyUpFullName,

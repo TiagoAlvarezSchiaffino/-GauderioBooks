@@ -8,7 +8,7 @@ const FormLogin = () => {
     setLoginOk,
     form,
     loading,
-    response,
+    
     handleChange,
     handleSubmit,
   } = useContext(context);
@@ -19,11 +19,9 @@ const FormLogin = () => {
   };
 
   return (
-    //-----------------LogIn-----------------------------------------------------------
-
     <form className="flex flex-col p-2" onSubmit={handleSubmit}>
       <h1 className="font-bold text-center text-2xl p-2 items-center">
-        Iniciar sesion
+        Iniciar sesión
       </h1>
       <label className="font-bold py-2" htmlFor="email">
         Email
@@ -49,7 +47,7 @@ const FormLogin = () => {
         onChange={handleChange}
         required
       />
-      <input className="bg-black text-white mt-8 rounded p-2" type="submit" />
+      <input className="bg-[#822626] text-white mt-8 rounded p-2" type="submit" />
       <div className="p-5">
         <p className="text-xs">
           No soy usuario registrado y quiero{" "}

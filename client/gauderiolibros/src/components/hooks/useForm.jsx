@@ -2,24 +2,29 @@ import { useRef, useState } from "react";
 import axios from "axios";
 import { useLocalStorage } from "./useLocalStorage";
 
-export const useForm = (initialForm) => {
-  const [isLogin, setIsLogin] = useState(false); //
+const initialForm = {
+    username: "",
+    fullname: "",
+    email: "",
+    password: "",
+  };
+
+export const useForm = () => {
+
+
+  const [isLogin, setIsLogin] = useState(false);
   const formIsOkRef = useRef(false);
-  const [form, setForm] = useState(initialForm);
+  const [form, setForm] = useState(initialForm);//
   const [errors, setErrors] = useState({
     userNameError: false,
     fullNameError: false,
     emailError: false,
     passwordError: false,
   });
-
   const [loginOk, setLoginOk] = useLocalStorage("loginOk", false);
   const [userData, setUserData] = useLocalStorage("userData", {});
 
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState(null);
-
-  //---------estados y funciones del modal de Registro-------------------------------------------
   const [isOpen, setIsOpen] = useState(false); //
   const openModal = () => setIsOpen(true); //
   const closeModal = () => setIsOpen(false); //
@@ -34,13 +39,23 @@ export const useForm = (initialForm) => {
     return loginOk;
   };
 
-  const validationSignInOk = () => {
+  const validationSignInOk = () => {    
+    const { username, fullname, email, password} = form;
     const { userNameError, fullNameError, emailError, passwordError } = errors;
-    if (!userNameError && !fullNameError && !emailError && !passwordError) {
-      formIsOkRef.current = true;
-    } else {
-      formIsOkRef.current = false;
-    }
+    
+    if(isLogin){
+      if ( !emailError && !passwordError  && email!=='' && password!=='') {
+        formIsOkRef.current = true;
+      } else {
+        formIsOkRef.current = false;
+      }
+    }else{
+        if (!userNameError && !fullNameError && !emailError && !passwordError && username!=='' && fullname!=='' && email!=='' && password!=='') {
+        formIsOkRef.current = true;
+      } else {
+        formIsOkRef.current = false;
+      }
+    }    
     return formIsOkRef;
   };
 
@@ -51,7 +66,6 @@ export const useForm = (initialForm) => {
       [name]: value,
     });
   };
-
   const validateForm = (nameError, valueError) => {
     setErrors({
       ...errors,
@@ -60,7 +74,7 @@ export const useForm = (initialForm) => {
   };
 
   const handleKeyUpUser = () => {
-    let regExpUser = /^[a-zA-Z0-9_-]+$/;
+    let regExpUser = /^[a-zA-Z0-9_\-]+$/;
     if (!regExpUser.test(form.username.trim())) {
       validateForm("userNameError", true);
     } else {
@@ -129,6 +143,7 @@ export const useForm = (initialForm) => {
         .catch((er) => {
           console.log(er);
           alert("Error en el registro, por favor vuelve a intentarlo");
+          setForm(initialForm);
           handleCloseSesion();
         });
     }
@@ -146,7 +161,7 @@ export const useForm = (initialForm) => {
     setIsLogin,
     handleCloseSesion,
     loading,
-    response,
+    
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,

@@ -3,13 +3,28 @@ import { context } from "../../../context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
+import axios from "axios";
 
 const Cart = () => {
   const { products, deleteAllProducts, deleteProduct, totalPrice } =
     useContext(context);
+
   const navigate = useNavigate();
+
   const handleClick = () => {
-    alert("Compra exitosa");
+    let refCart = products.map(({ title, price, quantity }) => {
+      return { title, price, quantity };
+    });
+
+    axios
+      .post(
+        "",
+        refCart
+      )
+      .then((res) => {
+        window.location.href = res.data.url;
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

@@ -15,7 +15,7 @@ export const createSession = async (req, res) => {
                 currency: 'usd',
                 unit_amount: producto.price * 100
             },
-            quantity: producto.cantidad
+            quantity: producto.quantity
         });
     });
 

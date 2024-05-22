@@ -13,26 +13,43 @@ export const getAllBooks = async (req, res) => {
     }
     else {
       if (author) {
-        filter = { ...filter, author: author }
+        if(author.includes(',')){
+          const data = author.split(',')
+          const regexArray = data.map(g => ({ author: { $regex: new RegExp(g, 'i') } }));
+          filter = { $and: regexArray };
+        }else{
+          filter = { ...filter, author: author }
+        }
       }
 
       if (editorial) {
-        filter = { ...filter, editorial: editorial }
+        if(editorial.includes(',')){
+          const data = editorial.split(',')
+          const regexArray = data.map(g => ({ editorial: { $regex: new RegExp(g, 'i') } }));
+          filter = { $and: regexArray };
+        }else{
+          filter = { ...filter, editorial: editorial }
+        }
       }
 
       if (genre) {
-        filter = { ...filter, genre: genre }
+        if(genre.includes(',')){
+          const data = genre.split(',')
+          const regexArray = data.map(g => ({ genre: { $regex: new RegExp(g, 'i') } }));
+          filter = { $and: regexArray };
+        }else{
+          filter = { ...filter, genre: genre};
+        }
       }
+
     }
-
-
     const regexFilter = {};
     for (const key in filter) {
       regexFilter[key] = new RegExp(filter[key], 'i');
     }
 
     const allBooks = await Book.find({});
-    const filteredBooks = await Book.find(regexFilter)
+    const filteredBooks = await Book.find(filter)
 
     res.status(201).json({ allBooks: allBooks, filteredBooks: filteredBooks });
 

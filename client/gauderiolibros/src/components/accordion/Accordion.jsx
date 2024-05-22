@@ -14,24 +14,20 @@ const Accordion = ({
   const handleOutsideClick = () => {
     setTimeout(() => {
       setAccordionOpen(false);
-    }, 200);
+    },200);         
     } 
   useClickAway(acordionRef, handleOutsideClick)
-   
 
   return (
     <div className={`${classAccordion}  `} ref={acordionRef}>
       <button
         className={`${classTitle}`}
-        
         onClick={() => setAccordionOpen(!accordionOpen)}
       >
         {title}
       </button>
-      
       <div
-       
-        className={`${classContent} grid overflow-hidden transition-all duration-1000 ease-in cursor-pointer 
+        className={`${classContent} grid overflow-hidden transition-all duration-300 ease-in cursor-pointer 
             ${
               accordionOpen
                 ? "grid-rows-[1fr] opacity-100  inline-block"

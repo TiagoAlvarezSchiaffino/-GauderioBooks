@@ -24,8 +24,6 @@ const Books = () => {
 
   const genre = searchParams.get("genre");
 
-  let urlData = `https://gauderiolibros.vercel.app/books/?genre=${queryFilter.genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
-
   console.log(urlData)
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
@@ -36,15 +34,16 @@ const Books = () => {
   useEffect(() => {
     if (genre) {
       setQueryFilter({ ...queryFilter, genre: genre });
-      urlData = `https://gauderiolibros.vercel.app/books/?genre=${genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
     }
   }, []);
 
   useEffect(() => {
-    fetch(urlData)
+    fetch(
+      `https://gauderiolibros.vercel.app/books/?genre=${queryFilter.genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`
+    )
       .then((res) => res.json())
       .then((data) => setFilteredBooks(data.filteredBooks));
-  }, [urlData]);
+  }, [filteredBooks]);
 
   const handleFilterClick = (e) => {
     const { name, value } = e.target;
@@ -60,7 +59,7 @@ const Books = () => {
     else {
       setQueryFilter({ ...queryFilter, [name]: [...queryFilter[name], value], search: "" });
     }
-     
+
   };
 
   const handleFilterClickClose = (name, value) =>{
@@ -355,11 +354,11 @@ const Books = () => {
         </div>
         {filteredBooks?.length > 12 ? (
           <div className="flex justify-center items-center w-full">
-            <div className="flex justify-between items-center bg-[#e9cccc] shadow-slate-300 shadow-xl w-3/4 h-min rounded-md">
+            <div className="flex justify-between items-center bg-[#e9cccc] shadow-slate-300 shadow-xl w-3/4 h-min">
               <button
                 onClick={changePage}
                 name="previous"
-                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10 rounded-s-md"
+                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10"
               >
                 {"<"}
               </button>
@@ -394,12 +393,12 @@ const Books = () => {
               <button
                 onClick={changePage}
                 name="next"
-                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10 rounded-e-md"
+                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10"
               >
                 {">"}
               </button>
             </div>
-          </div>
+            </div>
         ) : null}
       </div>
     </main>

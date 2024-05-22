@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import {useClickAway} from 'react-use';
+import { useClickAway } from 'react-use';
 
 const Accordion = ({
   title,
@@ -14,10 +14,10 @@ const Accordion = ({
   const handleOutsideClick = () => {
     setTimeout(() => {
       setAccordionOpen(false);
-    },200);         
-    } 
-  useClickAway(acordionRef, handleOutsideClick)
-
+    }, 200);
+  };
+  useClickAway(acordionRef, handleOutsideClick);
+  
   return (
     <div className={`${classAccordion}  `} ref={acordionRef}>
       <button

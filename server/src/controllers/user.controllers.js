@@ -1,4 +1,4 @@
-import { generateJWT } from "../helpers/jwt.js";
+import { generarJWT } from "../helpers/jwt.js";
 import { Book } from "../models/book.model.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -6,7 +6,21 @@ import bcrypt from "bcryptjs";
 export const getAllUsers = async (req, res) => {
     try {
 
-        res.send('Done successfully')
+        const user = req.user
+
+        const userFound = await User.findById(user.uid)
+
+        if (userFound.role !== 'admin') {
+
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegios para realizar esta accion'
+            })
+        }
+
+
+        const users = await User.find()
+        res.send(users)
 
     } catch (error) {
         console.log(error);
@@ -27,15 +41,17 @@ export const createUser = async (req, res) => {
         const { username, fullname, email, password } = req.body
         const newUser = new User({ username, fullname, email, password })
 
-        // Encrypt password
         const salt = bcrypt.genSaltSync();
         newUser.password = bcrypt.hashSync(password, salt)
 
         await newUser.save()
 
+        const token = await generarJWT(newUser._id, newUser.name)
+
         res.status(201).json({
             message: 'User created successfully',
-            user: newUser
+            user: newUser,
+            token
         })
 
     } catch (error) {
@@ -59,38 +75,39 @@ const deleteUser = async (req, res) => {
     }
 }
 
-export const loginUser = async (req, res) => {
+export const loginUsuario = async (req, res) => {
     const { email, password } = req.body;
     try {
 
-        const userFound = await User.findOne({ email })
+        const usuariobuscado = await User.findOne({ email })
 
-        if (!userFound) {
+        if (!usuariobuscado) {
             return res.status(400).json({
                 ok: false,
                 msg: 'The email entered does not exist'
             })
         }
 
-        // Confirm password
-        const validPassword = bcrypt.compareSync(password, userFound.password)
+        const validPassword = bcrypt.compareSync(password, usuariobuscado.password)
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
-                msg: 'Incorrect password'
+                msg: 'password incorrect'
             })
         }
 
-        const token = await generateJWT(userFound.id, userFound.name)
+        const token = await generarJWT(usuariobuscado.id, usuariobuscado.fullname)
+
+
 
         res.json({
             status: 'successful login',
             token,
             user: {
-                "_id": userFound._id,
-                "username": userFound.username,
-                "fullname": userFound.fullname,
-                "email": userFound.email
+                "_id": usuariobuscado._id,
+                "username": usuariobuscado.username,
+                "fullname": usuariobuscado.fullname,
+                "email": usuariobuscado.email
             }
         })
 
@@ -98,6 +115,7 @@ export const loginUser = async (req, res) => {
         console.error(error);
     }
 };
+
 
 export const getUserCart = async (req, res) => {
     try {
@@ -138,15 +156,15 @@ export const addToCart = async (req, res) => {
             })
         }
 
-        const {title, price} = await Book.findById(pid);
+        const { title, price } = await Book.findById(pid);
 
         const productExist = user.cart.findIndex(p => p._id === pid);
 
 
         if (productExist === -1) {
 
-            user.cart.push({title, price,cantidad: productQuantity.cantidad, _id: pid });        
-           await user.save();
+            user.cart.push({ title, price, cantidad: productQuantity.cantidad, _id: pid });
+            await user.save();
         }
         else {
 
@@ -222,6 +240,43 @@ export const RemoveFromCart = async (req, res) => {
             username: user.username,
             fullname: user.fullname,
             cart: user.cart,
+        })
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+export const createAdmin = async (req, res) => {
+    try {
+        const user = req.user
+
+        const userFound = await User.findById(user.uid)
+
+        if (userFound.role !== 'admin') {
+
+            return res.status(401).json({
+                ok: false,
+                msg: 'No tiene privilegios para realizar esta accion'
+            })
+        }
+
+
+        const { username, fullname, email, password } = req.body
+        const newUser = new User({ username, fullname, email, password, role: 'admin' })
+
+        const salt = bcrypt.genSaltSync();
+        newUser.password = bcrypt.hashSync(password, salt)
+
+        await newUser.save()
+
+        const token = await generarJWT(newUser._id, newUser.name)
+
+        res.status(201).json({
+            message: 'User created successfully',
+            user: newUser,
+            token
         })
 
     } catch (error) {

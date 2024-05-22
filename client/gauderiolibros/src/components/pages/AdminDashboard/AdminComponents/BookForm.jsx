@@ -87,6 +87,13 @@ export default function BookForm() {
           headers: {
             'Authorization': `Bearer ${token}`
           }
+        }).then(()=>{
+          Swal.fire({
+            icon: "success",
+            title: "El Libro ha sido creado con Exito",
+            showConfirmButton: false,
+            timer: 1500
+          });
         })
         .then(() => {
           setFormData({

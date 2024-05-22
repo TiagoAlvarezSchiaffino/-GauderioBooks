@@ -7,6 +7,8 @@ export const context = createContext();
 
 
 const ContextProvider = ({ children }) => {
+  const [userData, setUserData] = useState(null)
+
   const {
     storageProducts,
     addProduct,
@@ -38,6 +40,10 @@ const ContextProvider = ({ children }) => {
     handleSubmit,
   } = useForm();
 
+  const getDataUser = (data) => {
+    setUserData(data)
+  }
+
   return (
     <context.Provider
       value={{
@@ -66,6 +72,8 @@ const ContextProvider = ({ children }) => {
         deleteProduct,
         totalPrice,
         badgeCount,
+        getDataUser,
+        userData
       }}
     >
       {children}

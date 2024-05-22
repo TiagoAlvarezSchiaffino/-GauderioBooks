@@ -1,30 +1,36 @@
 "use client";
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { context } from "../../../../context";
 
 export default function BookForm() {
-  const { _id } = useParams();
-  console.log(_id)
+  const { getDataUser, userData } = useContext(context)
+  useEffect(() => {
+    getDataUser(JSON.parse(localStorage.getItem('userData')).data)
+  }, [])
+  const { id } = useParams();
   const [formData, setFormData] = useState();
   const [book, setBook] = useState();
 
-  useEffect(() => {
-    fetch(`https://gauderiolibros.vercel.app/books/${_id}`)
-      .then((res) => res.json())
-      .then((data) => setBook(data));
-      console.log(book)
-  }, [_id]);
+  if (id) {
+    useEffect(() => {
+      fetch(`https://gauderiolibros.vercel.app/books/${id}`)
+        .then((res) => res.json())
+        .then((data) => setBook(data[0]));
+
+    }, [id]);
+  }
 
   useEffect(() => {
     if (book) {
-      if (!_id && book && book.title) {
+      if (!id && book && book.title) {
         setFormData({
           title: "",
           author: "",
           year: "",
           editorial: "",
-          genre: 0,
+          genre: "",
           stock: 0,
           image: "",
           price: 0,
@@ -47,8 +53,6 @@ export default function BookForm() {
       }
     }
   }, [book]);
-
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,19 +77,23 @@ export default function BookForm() {
       description: formData.description,
       inCart: false,
     };
-    console.log(book);
-    if(!_id){
+    const { token } = userData;
+    if (!id) {
       await axios
-      .post(
-        `https://gauderiolibros.vercel.app/books/create`,
-        book)
+        .post(
+          `https://gauderiolibros.vercel.app/books/create`,
+          book, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
         .then(() => {
           setFormData({
             title: "",
             author: "",
             year: "",
             editorial: "",
-            genre: 0,
+            genre: "",
             stock: 0,
             image: "",
             price: 0,
@@ -94,29 +102,46 @@ export default function BookForm() {
           });
         })
         .catch((error) => window.alert(error.message));
-      }else{
-        await axios
-        .post(
-          `https://gauderiolibros.vercel.app/books/update/${_id}`,
-          book
+    } else {
+      await axios
+        .put(
+          `https://gauderiolibros.vercel.app/books/update/${id}`,
+          book, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
         )
+        .then(() => {
+          setFormData({
+            title: "",
+            author: "",
+            year: "",
+            editorial: "",
+            genre: "",
+            stock: 0,
+            image: "",
+            price: 0,
+            description: "",
+            inCart: false,
+          });
+          window.location.href = "/adminDashboard";
+          window.alert("Libro actualizado correctamente");
+        })
         .catch((error) => window.alert(error.message));
-      }
-
+    }
   };
 
   return (
-    <main className="h-full w-full m-4">
-      <div>
+    <main className="h-full w-full flex items-center justify-center text-center my-4 rounded-xl">
+      <div className="h-[70%] w-[70%] bg-[#9c1214ad] rounded-xl">
         <form
           onSubmit={handleSubmit}
-          className=" bg-slate-700 shadow-md w-full h-full rounded-xl grid grid-cols-2"
+          className="bg-[#9c1214ad] w-full h-full rounded-xl grid grid-cols-1 md:grid-cols-3 text-white"
         >
-          <div className="flex flex-row m-4 justify-around">
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label className="font-bold mb-2 text-center">
-                Título
-              </label>
+          <div className="flex flex-col m-4 justify-around text-white">
+            <div className="mb-6">
+              <label className="font-bold mb-2 text-center">Título</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
@@ -126,29 +151,31 @@ export default function BookForm() {
                 required
               />
             </div>
-            <div className="w-full md:w-1/3 px-3 justify-center content-center">
-              <label>Autor:</label>
+            <div className="mb-6">
+              <label className="font-bold mb-2 text-center">Autor:</label>
               <input
-                className=" w-12 h-12 shadow appearance-none border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="author"
-                checked={formData?.author}
+                value={formData?.author}
                 onChange={handleInputChange}
+                required
               />
             </div>
-            <div className="w-full md:w-1/3 px-3 justify-center content-center">
-              <label>Año:</label>
+            <div>
+              <label className="font-bold mb-2 text-center">Año:</label>
               <input
-                className=" w-12 h-12 shadow appearance-none border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="year"
-                checked={formData?.year}
+                value={formData?.year}
                 onChange={handleInputChange}
+                required
               />
             </div>
           </div>
-          <div className="flex flex-row w-full justify-evenly">
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+          <div className="flex flex-col m-4 justify-around">
+            <div className="mb-6">
               <label className="font-bold mb-2 text-center">Editorial:</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
@@ -159,7 +186,7 @@ export default function BookForm() {
                 required
               />
             </div>
-            <div className="w-full md:w-1/3 px-3">
+            <div className="mb-6">
               <label className="font-bold mb-2 text-center">Género:</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
@@ -170,7 +197,7 @@ export default function BookForm() {
                 required
               />
             </div>
-            <div className="w-full md:w-1/3 px-3">
+            <div>
               <label className="font-bold mb-2 text-center">Stock:</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
@@ -182,11 +209,9 @@ export default function BookForm() {
               />
             </div>
           </div>
-          <div className="flex flex-row m-4 justify-around">
-            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-              <label className="font-bold mb-2 text-center">
-                Imágen
-              </label>
+          <div className="flex flex-col m-4 justify-around">
+            <div className="mb-6">
+              <label className="font-bold mb-2 text-center">Imágen</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
@@ -196,32 +221,32 @@ export default function BookForm() {
                 required
               />
             </div>
-            <div className="w-full md:w-1/3 px-3 justify-center content-center">
-              <label>Precio:</label>
+            <div className="mb-6">
+              <label className="font-bold mb-2 text-center">Precio:</label>
               <input
-                className=" w-12 h-12 shadow appearance-none border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="price"
-                checked={formData?.price}
+                value={formData?.price}
                 onChange={handleInputChange}
+                required
               />
             </div>
             <div>
-            <div className="w-full md:w-1/3 px-3 justify-center content-center">
-              <label>Resumen:</label>
+              <label className="font-bold mb-2 text-center">Resumen:</label>
               <input
-                className=" w-12 h-12 shadow appearance-none border rounded py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 name="description"
-                checked={formData?.description}
+                value={formData?.description}
                 onChange={handleInputChange}
+                required
               />
             </div>
-            </div>
           </div>
-          <div>
+          <div className="w-full flex justify-center items-center">
             <button
-              className=" hover:border-lime-400 font-second-font font-semibold text-xl rounded-xl text-zinc-50 bg-slate-700 m-2 p-4 border-solid"
+              className="text-white text-2xl w-fit bg-[#822626] hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1 mx-auto my-2"
               type="submit"
             >
               Guardar Cambios

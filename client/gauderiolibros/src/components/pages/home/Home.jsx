@@ -1,7 +1,14 @@
+import { useContext, useEffect } from "react";
 import BannerCarrousel from "./HomeComponents/BannerCarrousel";
 import Presentation from "./HomeComponents/Presentation";
+import { context } from "../../../context";
 
 const Home = () => {
+  const { getDataUser, userData } = useContext(context)
+  useEffect(() => {
+    getDataUser(JSON.parse(localStorage.getItem('userData')).data)
+  }, [])
+
   return (
     <main className="w-full">
       <BannerCarrousel />

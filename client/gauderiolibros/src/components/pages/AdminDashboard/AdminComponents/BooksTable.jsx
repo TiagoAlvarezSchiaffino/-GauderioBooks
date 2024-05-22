@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   flexRender,
   getCoreRowModel,
@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { context } from "../../../../context";
+import Swal from 'sweetalert2'
 
 const booksColumns = [
   {
@@ -18,19 +20,19 @@ const booksColumns = [
   },
   {
     accessorKey: "image",
-    header: "Imágen",
+    header: "Imagen",
     cell: (row) => (
       <img
         height={70}
         width={60}
         src={row.original.image}
-        alt="Imágen del libro"
+        alt="Imagen del libro"
       />
     ),
   },
   {
     accessorKey: "title",
-    header: "Título",
+    header: "Titulo",
     cell: (row) => row.original.title,
   },
   {
@@ -46,6 +48,11 @@ const booksColumns = [
 ];
 
 export default function AdminBooksTable() {
+  const { userData, getDataUser } = useContext(context)
+  useEffect(() => {
+    getDataUser(JSON.parse(localStorage.getItem('userData')).data)
+  }, [])
+  console.log(userData);
   const [books, setBooks] = useState([]);
   const [sorting, setSorting] = useState();
   const [filtering, setFiltering] = useState("");
@@ -72,18 +79,47 @@ export default function AdminBooksTable() {
   });
 
   const deleteBook = (_id) => {
-    axios.delete(`https://gauderiolibros.vercel.app/books/delete/${_id}`)
-    .then(response=>window.alert("El Libro ha sido eliminado con Exito"))
-    .catch(error => window.alert("Error al eliminar el libro"))
-    }
-    
+    const { token } = userData;
+
+    Swal.fire({
+      title: "Estas seguro de eliminar?",
+      text: "Esta accion no tiene marcha atras!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, deseo eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios.delete(`https://gauderiolibros.vercel.app/books/delete/${_id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            setTimeout(function () {
+              window.location.reload();
+            }, 2000);
+          }
+          )
+          .catch(error => window.alert("Error al eliminar el libro"))
+
+
+        Swal.fire({
+          title: "Eliminado!",
+          text: "El libro ha sido eliminado.",
+          icon: "success"
+        });
+      }
+    });
+  }
 
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
       .then((res) => res.json())
       .then((data) => setBooks(data.allBooks));
   }, []);
-  console.log(books);
+
   return (
     <div className=" w-full h-full ">
       <div className="rounded-lg w-full h-1/6 bg-slate-700 mb-2 items-stretch text-center">
@@ -129,8 +165,8 @@ export default function AdminBooksTable() {
 
                         {header.column.getIsSorted()
                           ? { asc: "⬆️", desc: "⬇️" }[
-                              header.column.getIsSorted()
-                            ]
+                          header.column.getIsSorted()
+                          ]
                           : null}
                       </div>
                     )}
@@ -166,7 +202,7 @@ export default function AdminBooksTable() {
                   </Link>
                 </td>
                 <td className="border-slate-300 border-solid border text-3xl text-white text-center">
-                  <button className="text-center" onClick={()=>{deleteBook(row.original._id)}}>
+                  <button className="text-center" onClick={() => { deleteBook(row.original._id) }}>
                     ❌
                   </button>
                 </td>

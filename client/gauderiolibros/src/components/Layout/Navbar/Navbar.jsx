@@ -14,14 +14,14 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-10 w-full  bg-[#822626]">
-      <nav className="flex items-center justify-between max-w-full sm:max-w-[85%] md:w-[75%] lg:w-[65%] h-24 sm:m-auto text-white">
+      <nav className="flex items-center justify-between max-w-full md:w-[75%] lg:w-[65%] h-24 sm:m-auto text-white">
         <NavMenu />
         <a className="md:flex items-center w-1/3 text-center" href="/">
           <span className="font-roboto-serif lg:text-2xl sm:text-base text-sm md:text-lg ">
             Gauderio
           </span>
           <img
-            className="w-14 sm:w-15 m-auto md:w-24 h-auto"
+            className="w-14 sm:w-15 m-auto md:m-0 md:w-24 h-auto"
             src={Logo}
             alt="logo"
           />

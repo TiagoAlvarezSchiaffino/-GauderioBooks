@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import Card from "./BooksComponents/Card";
 import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faArrowRight,
+  faCircleXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import Accordion from "../../accordion/Accordion";
 
 const Books = () => {
@@ -24,7 +28,6 @@ const Books = () => {
 
   const genre = searchParams.get("genre");
 
-  console.log(urlData)
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
       .then((res) => res.json())
@@ -33,7 +36,7 @@ const Books = () => {
 
   useEffect(() => {
     if (genre) {
-      setQueryFilter({ ...queryFilter, genre: genre });
+      setQueryFilter({ ...queryFilter, genre: [genre] });
     }
   }, []);
 
@@ -43,7 +46,7 @@ const Books = () => {
     )
       .then((res) => res.json())
       .then((data) => setFilteredBooks(data.filteredBooks));
-  }, [filteredBooks]);
+  }, [queryFilter]);
 
   const handleFilterClick = (e) => {
     const { name, value } = e.target;
@@ -109,9 +112,7 @@ const Books = () => {
   };
 
   const getAllGenre = () => {
-    const genres = books?.flatMap((book) =>
-      book.genre.split(",").map((genre) => genre.trim())
-    );
+    const genres = books?.map((book) => book.genre);
     const allGenres = [...new Set(genres)];
     return allGenres.map((genre) =>
     queryFilter['genre']?.indexOf(genre)>=0 ? (
@@ -195,7 +196,7 @@ const Books = () => {
   };
 
   return (
-    <main className="w-full py-12 ">
+    <main className="w-full py-12 min-h-screen">
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] m-auto  flex flex-col gap-6">
         <div className="flex flex-row items-center justify-between ">
           <h1 className="text-sm md:text-xl lg:text-2xl font-semibold uppercase text-[#822626] w-2/6">
@@ -221,62 +222,66 @@ const Books = () => {
         <div className="w-full flex-1 items-start md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-1">
           <aside className="w-full md:sticky md:block">
             <div className="flex flex-wrap gap-3 pb-5">
-              {queryFilter.genre 
-                ?queryFilter["genre"].map((x)=>{
-                  return (
-                    <button
-                    className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded flex gap-2 items-center"
-                    name="genre"
-                    >
-                    
-                    {x}{" "}
-                    <FontAwesomeIcon
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFilterClickClose("genre", x);
-                      }}
-                      icon={faCircleXmark}
-                    />
-                  </button>
-                  )
-                })
+              {queryFilter.genre
+                ? queryFilter["genre"].map((x) => {
+                    return (
+                      <button
+                        key={x}
+                        className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded flex gap-2 items-center"
+                        name="genre"
+                      >
+                        {x}{" "}
+                        <FontAwesomeIcon
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFilterClickClose("genre", x);
+                          }}
+                          icon={faCircleXmark}
+                        />
+                      </button>
+                    );
+                  })
                 : null}
-              {queryFilter.editorial 
-                ? queryFilter["editorial"].map((x)=>{
-                  return (
-                  <button
-                    className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded items-center"
-                    name="editorial"
-                  >
-                  {x}{" "}
-                  <FontAwesomeIcon
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFilterClickClose("editorial", x);
-                    }}
-                    icon={faCircleXmark}
-                    />
-                </button>
-                )})
-               : null}
-              {queryFilter.author 
-              ?queryFilter.author.map((x)=>{
-                return (
-                  <button
-                  className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded items-center"
-                  name="author"
-                  >
-                  {x}{" "}
-                  <FontAwesomeIcon
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFilterClickClose("author", x);
-                    }}
-                    icon={faCircleXmark}
-                    />
-                </button>
-                )}) 
-               : null}
+              {queryFilter.editorial
+                ? queryFilter["editorial"].map((x) => {
+                    return (
+                      <button
+                        key={x}
+                        className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded items-center"
+                        name="editorial"
+                      >
+                        {x}{" "}
+                        <FontAwesomeIcon
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFilterClickClose("editorial", x);
+                          }}
+                          icon={faCircleXmark}
+                        />
+                      </button>
+                    );
+                  })
+                : null}
+              {queryFilter.author
+                ? queryFilter.author.map((x) => {
+                    return (
+                      <button
+                        key={x}
+                        className="bg-[#822626] px-2 py-1 text-white hover:bg-[#525252] hover:shadow-md hover:scale-105 transition-all text-sm shadow-slate-300 rounded items-center"
+                        name="author"
+                      >
+                        {x}{" "}
+                        <FontAwesomeIcon
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleFilterClickClose("author", x);
+                          }}
+                          icon={faCircleXmark}
+                        />
+                      </button>
+                    );
+                  })
+                : null}
             </div>
             <Accordion
               title={"Género"}
@@ -351,55 +356,56 @@ const Books = () => {
               </div>
             )}
           </div>
-        </div>
-        {filteredBooks?.length > 12 ? (
-          <div className="flex justify-center items-center w-full">
-            <div className="flex justify-between items-center bg-[#e9cccc] shadow-slate-300 shadow-xl w-3/4 h-min">
-              <button
-                onClick={changePage}
-                name="previous"
-                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10"
-              >
-                {"<"}
-              </button>
-              {filteredBooks?.map((x, index) => {
-                if (index % 12 == 0) {
-                  if (index / 12 + 1 == currentPage.current) {
-                    return (
-                      <button
-                        className="bg-[#822626] text-white h-10 w-10"
-                        onClick={changePage}
-                        key={index}
-                        value={index / 12 + 1}
-                        name="page"
-                      >
-                        {index / 12 + 1}
-                      </button>
-                    );
-                  } else
-                    return (
-                      <button
-                        className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] h-10 w-10"
-                        onClick={changePage}
-                        key={index}
-                        value={index / 12 + 1}
-                        name="page"
-                      >
-                        {index / 12 + 1}
-                      </button>
-                    );
-                }
-              })}
-              <button
-                onClick={changePage}
-                name="next"
-                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10"
-              >
-                {">"}
-              </button>
+
+          {filteredBooks?.length > 12 ? (
+            <div className="flex justify-center items-center sm:w-full md:col-start-2 col-end-3 m-auto w-[19rem]">
+              <div className="flex justify-between items-center bg-[#262525] shadow-slate-300 shadow-xl w-full mt-4 h-min rounded-md p-2">
+                <button
+                  onClick={changePage}
+                  name="previous"
+                  className="active:bg-[#822626] text-white h-10 w-10 rounded-s-md hover:scale-150 transition-all"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </button>
+                {filteredBooks?.map((x, index) => {
+                  if (index % 12 == 0) {
+                    if (index / 12 + 1 == currentPage.current) {
+                      return (
+                        <button
+                          className="bg-[#822626] text-white h-10 w-10 rounded-full"
+                          onClick={changePage}
+                          key={index}
+                          value={index / 12 + 1}
+                          name="page"
+                        >
+                          {index / 12 + 1}
+                        </button>
+                      );
+                    } else
+                      return (
+                        <button
+                          className="text-white h-10 w-10 hover:scale-150 transition-all"
+                          onClick={changePage}
+                          key={index}
+                          value={index / 12 + 1}
+                          name="page"
+                        >
+                          {index / 12 + 1}
+                        </button>
+                      );
+                  }
+                })}
+                <button
+                  onClick={changePage}
+                  name="next"
+                  className=" hover:border-[#822626] active:bg-[#822626] text-white h-10 w-10 rounded-e-md hover:scale-150 transition-all"
+                >
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </button>
+              </div>
             </div>
-            </div>
-        ) : null}
+          ) : null}
+          </div>
       </div>
     </main>
   );

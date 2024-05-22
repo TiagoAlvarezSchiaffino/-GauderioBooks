@@ -1,45 +1,58 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping, faUser } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  Accordion,
-  AccordionContent,
-  AccordionPanel,
-  AccordionTitle,
-} from "flowbite-react";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { context } from "../../../../context";
+import Accordion from "../../../accordion/Accordion";
 
 const ButtonUser = () => {
-  const { loginOk, form, handleCloseSesion } = useContext(context);
+  const { handleCloseSesion } = useContext(context);
 
-  const user = localStorage.getItem("userData"); //
-  const userdata = JSON.parse(user); //
+  const user = localStorage.getItem("userData");
+  const userdata = JSON.parse(user);
+  const handleAdmin = () => {
+    window.location.href = "/adminDashboard";
+  }
 
   return (
     <>
-      <li className=" p-0 cursor-pointer ">
-        <Accordion collapseAll className="border-0 ">
-          <AccordionPanel className="border-0 " >
-            <AccordionTitle className="bg-[#822626]  p-1 rounded flex  flex-col hover:bg-[#8f3232]  hover:border-collapse focus:collapse">
+      <li>
+        <Accordion
+          title={
+            <div className="group">
               <FontAwesomeIcon
-                className="h-5 px-5 text-[#E6DDBC]"
+                className="h-5 text-[#ffffff] group-hover:text-black"
                 icon={faUser}
               />
-              <div className="h-1 text-[#E6DDBC] text-xs">
+              <div className="h-1 text-[#ffffff] text-xs group-hover:text-black">
                 {userdata.data.user.username}
               </div>
-            </AccordionTitle>
-            <AccordionContent className="p-1 hover:bg-[#8f3232] rounded border-1 border-red-800" >
+            </div>
+          }
+          content={
+            <>
+              {
+                userdata.data.user.role === "admin" &&
+                <div className="text-[##E6DDBC] text-xs text-center overflow-hidden hover:text-[#000000] p-2"
+                  onClick={handleAdmin}>
+                  Admin
+                </div>
+              }
               <div
-                className="text-[##E6DDBC] text-xs text-center"
+                className="text-[##E6DDBC] text-xs text-center overflow-hidden hover:text-[#000000] p-2"
                 onClick={handleCloseSesion}
               >
-                SALIR
+                Salir
               </div>
-            </AccordionContent>
-          </AccordionPanel>
-        </Accordion>
+            </>
+          }
+          classTitle={
+            "bg-[#822626] h-14 p-2 w-full rounded flex items-center justify-center flex-col"
+          }
+          classContent={
+            " border-red-800 rounded duration-300 absolute w-full bg-[#822626] mt-3"
+          }
+          classAccordion={"relative w-16"}
+        />
       </li>
     </>
   );

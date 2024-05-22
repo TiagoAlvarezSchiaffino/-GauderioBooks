@@ -5,6 +5,7 @@ import { context } from "../../../context";
 
 const Home = () => {
   const { getDataUser, userData } = useContext(context)
+
   useEffect(() => {
     getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
   }, [])
@@ -20,4 +21,5 @@ const Home = () => {
     </main>
   );
 };
+
 export default Home;

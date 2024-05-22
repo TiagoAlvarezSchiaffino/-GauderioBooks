@@ -6,10 +6,6 @@ import { Link } from "react-router-dom";
 const NavMenu = () => {
   const [toggleOpen, setToggleOpen] = useState(false);
 
-  useEffect(() => {
-    console.log(toggleOpen);
-  }, [toggleOpen]);
-
   return (
     <>
       <div className="md:hidden w-1/3">
@@ -23,9 +19,8 @@ const NavMenu = () => {
         </summary>
 
         <div
-          className={`flex flex-col items-center absolute bg-[#822626] rounded-b mt-2 w-full ease-in-out transition-all duration-500 ${
-            toggleOpen ? "h-full opacity-100" : "h-0 opacity-0"
-          }`}
+          className={`flex flex-col items-center absolute bg-[#822626] rounded-b mt-2 w-full ease-in-out transition-all duration-500 ${toggleOpen ? "h-full sm:h-36 opacity-100" : "h-0 opacity-0"
+        }`}
         >
           <span className="uppercase sm:p-3 md:p-3 lg:px-6 p-1 hover:text-[#262525]">
             <Link to="/">Inicio</Link>

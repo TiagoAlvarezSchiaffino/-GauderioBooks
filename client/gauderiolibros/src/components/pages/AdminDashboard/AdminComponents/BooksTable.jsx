@@ -8,6 +8,7 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const booksColumns = [
   {
@@ -70,6 +71,13 @@ export default function AdminBooksTable() {
     onGlobalFilterChange: setFiltering,
   });
 
+  const deleteBook = (_id) => {
+    axios.delete(`https://gauderiolibros.vercel.app/books/delete/${_id}`)
+    .then(response=>window.alert("El Libro ha sido eliminado con Exito"))
+    .catch(error => window.alert("Error al eliminar el libro"))
+    }
+    
+
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
       .then((res) => res.json())
@@ -109,7 +117,7 @@ export default function AdminBooksTable() {
                 {headerGroup.headers.map((header) => (
                   <th
                     key={header.id}
-                    className="border-slate-300 border-solid border p-2 "
+                    className="border-slate-300 border-solid border p-2"
                     onClick={header.column.getToggleSortingHandler()}
                   >
                     {header.isPlaceholder ? null : (
@@ -129,6 +137,9 @@ export default function AdminBooksTable() {
                   </th>
                 ))}
                 <th className="border-slate-300 border-solid border">Editar</th>
+                <th className="border-slate-300 border-solid border">
+                  Eliminar
+                </th>
               </tr>
             ))}
           </thead>
@@ -141,18 +152,23 @@ export default function AdminBooksTable() {
                 {row.getVisibleCells().map((cell) => (
                   <td
                     key={cell.id}
-                    className="border-slate-300 border-solid border text-xl text-white p-3"
+                    className="border-slate-300 border-solid border text-2xl text-white p-3"
                   >
                     {cell.column.columnDef.cell(row)}
                   </td>
                 ))}
-                <td className="border-slate-300 border-solid border text-xl text-white">
+                <td className="border-slate-300 border-solid border text-3xl text-white text-center">
                   <Link
                     to={`/adminDashboard/editBook/${row.original._id}`}
-                    className="h-[350px] w-[350px] text-center"
+                    className="text-center"
                   >
                     ✏️
                   </Link>
+                </td>
+                <td className="border-slate-300 border-solid border text-3xl text-white text-center">
+                  <button className="text-center" onClick={()=>{deleteBook(row.original._id)}}>
+                    ❌
+                  </button>
                 </td>
               </tr>
             ))}

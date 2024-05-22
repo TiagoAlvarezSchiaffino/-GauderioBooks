@@ -6,16 +6,17 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 
 const Cart = () => {
-  const { products, deleteAllProducts, deleteProduct, totalPrice } =
+  const { products, deleteAllProducts, deleteProduct, totalPrice, loginOk, openModal } =
     useContext(context);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    let refCart = products.map(({ title, price, quantity }) => {
+    if(loginOk)
+      {
+        let refCart = products.map(({ title, price, quantity }) => {
       return { title, price, quantity };
     });
-
     axios
       .post(
         "",
@@ -24,7 +25,10 @@ const Cart = () => {
       .then((res) => {
         window.location.href = res.data.url;
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+    }else{
+      openModal()      
+     }
   };
 
   return (
@@ -103,9 +107,9 @@ const Cart = () => {
               <div className="flex flex-row items-end justify-end w-full">
                 <button
                   onClick={handleClick}
-                  className="w-full h-full p-2 rounded-sm transition-colors bg-[#822626] hover:bg-[#262525] text-white"
+                  className="w-full h-full text-xs sm:text-sm md:text-base lg:text-lg text-center py-1 px-0.5 md:py-2 md:px-1 rounded-sm transition-colors bg-[#822626] hover:bg-[#262525] text-white"
                 >
-                  Realizar Compra
+                  Comprar
                 </button>
               </div>
             </div>

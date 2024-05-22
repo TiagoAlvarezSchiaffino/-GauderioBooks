@@ -5,7 +5,7 @@ import { context } from "../../context";
 import FormSignIn from "./FormSignIn";
 
 const Modals = () => {
-  const { isOpen, openModal, closeModal, isLogin } = useContext(context);
+  const { isOpen, closeModal, isLogin } = useContext(context);
 
   return (
     <div>

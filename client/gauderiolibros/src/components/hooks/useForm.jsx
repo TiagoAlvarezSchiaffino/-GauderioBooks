@@ -44,15 +44,23 @@ export const useForm = () => {
     const { userNameError, fullNameError, emailError, passwordError } = errors;
     
     if(isLogin){
-      if ( !emailError && !passwordError  && email!=='' && password!=='') {
+      email===''&& validateForm("emailError", true);
+      password==='' && validateForm("emailError", true);
+      if ( !emailError && !passwordError ) {
         formIsOkRef.current = true;
       } else {
         formIsOkRef.current = false;
       }
     }else{
-        if (!userNameError && !fullNameError && !emailError && !passwordError && username!=='' && fullname!=='' && email!=='' && password!=='') {
+        username ==='' && validateForm("userNameError", true);
+         fullname==='' && validateForm("fullNameError", true);
+         email===''&& validateForm("emailError", true);
+         password==='' && validateForm("passwordError", true);
+        if (!userNameError && !fullNameError && !emailError && !passwordError) {
         formIsOkRef.current = true;
+        console.log('formOk', username, fullname, email, password,'error:', userNameError, fullNameError, emailError, passwordError)
       } else {
+        console.log('form no ok', username, fullname, email, password,'error:', userNameError, fullNameError, emailError, passwordError)
         formIsOkRef.current = false;
       }
     }    
@@ -109,7 +117,7 @@ export const useForm = () => {
   };
 
   const handleOnBlurPassword = () => {
-    let regExpPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    let regExpPassword = /^\d{4,8}$/;
     if (!regExpPassword.test(form.password.trim())) {
       validateForm("passwordError", true);
     } else {

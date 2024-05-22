@@ -105,8 +105,7 @@ const FormSignIn = () => {
       />
       
         <p className={` ${errors.passwordError? 'font-bold text-red-600':'text-gray-600' } p-1 text-xs`}>
-          Campo requerido, debe contener al menos una mayúscula, una minúscula,
-          un número y mínimo 8 caracteres{/*--error en la validacion---*/}
+        Campo requerido, solo debe contener entre 4 a 8 dígitos{/*--error en la validacion---*/}
         </p>
       
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">
@@ -129,7 +128,7 @@ const FormSignIn = () => {
           </span>
         </p>
       </div>
-      <input className="bg-[#822626] text-white mt-2 rounded p-2 cursor-pointer" type="submit" onClick={handleSubmit} />
+      <input className="bg-[#822626] hover:bg-[#690202] text-white mt-2 rounded p-2 cursor-pointer" type="submit" onClick={handleSubmit} />
     </form>
   );
 };

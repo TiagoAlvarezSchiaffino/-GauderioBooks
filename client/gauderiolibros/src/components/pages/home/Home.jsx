@@ -6,7 +6,7 @@ import { context } from "../../../context";
 const Home = () => {
   const { getDataUser, userData } = useContext(context)
   useEffect(() => {
-    getDataUser(JSON.parse(localStorage.getItem('userData')).data)
+    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
   }, [])
 
   return (

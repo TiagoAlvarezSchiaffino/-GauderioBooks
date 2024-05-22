@@ -50,18 +50,11 @@ const booksColumns = [
 export default function AdminBooksTable() {
   const { userData, getDataUser } = useContext(context)
   useEffect(() => {
-    getDataUser(JSON.parse(localStorage.getItem('userData')).data)
+    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
   }, [])
-  console.log(userData);
   const [books, setBooks] = useState([]);
   const [sorting, setSorting] = useState();
   const [filtering, setFiltering] = useState("");
-  const [selectedBookData, setSelectedBookData] = useState({
-    id: 0,
-    title: "",
-    image: "",
-    stock: 0,
-  });
 
   const table = useReactTable({
     data: books,

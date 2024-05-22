@@ -12,7 +12,7 @@ export default function Card({ id, image, title, price, info }) {
   };
 
   return (
-    <div className="relative flex flex-col w-full h-full max-w-xs m-auto overflow-hidden rounded-lg shadow-md">
+    <div className="relative flex flex-col w-full h-full max-w-xs m-auto overflow-hidden rounded-lg shadow-md hover:scale-[105%] transition-all  hover:shadow-lg duration-500">
       <Link to={`/books/${id}`} className="h-[350px]">
         <img
           className="object-fill w-full h-full rounded-t-lg"

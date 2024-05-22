@@ -1,33 +1,59 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useCart = () => {
   const [products, setProducts] = useState([]);
+  const [badgeCount, setbadgeCount] = useState(0);
+  const [storageProducts, setStorageProducts] = useLocalStorage("products", []);
+
+  useEffect(() => {
+    badgeCounter();
+  }, [storageProducts]);
 
   const addProduct = (product) => {
-    const id = crypto.randomUUID()
-    const {title, price, quantity, image} = product;
-    setProducts([...products, {id, title, price, quantity, image}]);
+    const id = crypto.randomUUID();
+    let refCart = [...storageProducts];
+    const { title, price, quantity, image } = product;
+    let productIndex = refCart.findIndex((elem) => elem.title === title);
+
+    if (productIndex == -1) {
+      setStorageProducts([...storageProducts, { id, title, price, quantity, image }]);
+    } else {
+      refCart[productIndex].quantity += quantity;
+      setStorageProducts([...refCart]);
+    }
   };
 
   const deleteProduct = (id) => {
-    const productFilter = products.filter((p) => {
-      if(p.id !== id){
+    const productFilter = storageProducts.filter((p) => {
+      if (p.id !== id) {
         return p;
       }
     });
-    setProducts(productFilter);
+    setStorageProducts(productFilter);
   };
 
   const deleteAllProducts = () => {
-    setProducts([]);
+    setStorageProducts([]);
   };
 
-  const totalPrice = products.reduce((acc, product) => {
+  const totalPrice = storageProducts.reduce((acc, product) => {
     return Math.round((acc + product.price * product.quantity) * 100) / 100;
   }, 0);
 
+  const badgeCounter = () => {
+    let refCount = 0;
+
+    storageProducts.forEach((elem) => {
+      refCount += elem.quantity;
+    });
+
+    setbadgeCount(refCount);
+  };
+
   return {
-    products,
+    badgeCount,
+    storageProducts,
     addProduct,
     deleteAllProducts,
     deleteProduct,

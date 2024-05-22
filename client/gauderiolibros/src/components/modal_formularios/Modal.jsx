@@ -7,13 +7,13 @@ const Modal = ({ children, isOpen, closeModal }) => {
       className={`bg-black/75 fixed z-40 top-0 left-0 w-full min-h-screen flex justify-center items-center  ${
         !isOpen && "hidden"
       }`}
-      onClick={closeModal}
+      
     >
-      <div  //modal container
+      <div
         className="relative bg-white rounded text-black w-96 overflow-y-auto border-3 border-slate-700 p-3"
         onClick={handleModalContainerClick}
       >
-        <button onClick={closeModal} className="absolute top-1 right-2 p-1 border-2 rounded px-3">
+        <button onClick={closeModal} className="absolute top-1 right-2 p-1 border-2 rounded px-3 hover:bg-black hover:text-white ">
           X
         </button>
         {children}

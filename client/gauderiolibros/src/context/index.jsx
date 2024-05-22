@@ -4,11 +4,17 @@ import { useCart } from "../components/hooks/useCart";
 
 export const context = createContext();
 
+
+
 const ContextProvider = ({ children }) => {
-  const { products,
+  const {
+    storageProducts,
     addProduct,
     deleteAllProducts,
-    deleteProduct,totalPrice } = useCart();
+    deleteProduct,
+    totalPrice,
+    badgeCount,
+  } = useCart();
   const {
     form,
     errors,
@@ -21,7 +27,7 @@ const ContextProvider = ({ children }) => {
     setLoginOk,
     handleCloseSesion,
     loading,
-    
+
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,
@@ -46,7 +52,6 @@ const ContextProvider = ({ children }) => {
         form,
         errors,
         loading,
-        
         handleChange,
         handleKeyUpUser,
         handleKeyUpFullName,
@@ -55,11 +60,12 @@ const ContextProvider = ({ children }) => {
         handleOnBlurPassword,
         handleOnFocusPassword,
         handleSubmit,
-        products,
-    addProduct,
-    deleteAllProducts,
-    deleteProduct,
-    totalPrice,
+        storageProducts,
+        addProduct,
+        deleteAllProducts,
+        deleteProduct,
+        totalPrice,
+        badgeCount,
       }}
     >
       {children}

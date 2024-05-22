@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import Accordion from "../../accordion/Accordion";
 
-
 const Books = () => {
   const [books, setBooks] = useState();
   const [filteredBooks, setFilteredBooks] = useState();
@@ -54,6 +53,10 @@ const Books = () => {
       setQueryFilter({ ...queryFilter, [name]: value, search: "" });
     }
   };
+  const handleFilterClickClose = (name, value) =>
+    queryFilter[name] !== value &&
+    setQueryFilter({ ...queryFilter, [name]: value, search: "" });
+
   const handlerOnChangeSearchBar = (e) => {
     const { value } = e.target;
     setQueryFilter({ ...queryFilter, search: value });
@@ -95,10 +98,10 @@ const Books = () => {
       book.genre.split(",").map((genre) => genre.trim())
     );
     const allGenres = [...new Set(genres)];
-    return allGenres.map((genre) =>
+    return allGenres.sort().map((genre) =>
       genre == queryFilter.genre ? (
         <button
-          className="bg-[#822626] text-white rounded p-1 "
+          className="bg-[#822626] text-white rounded p-1 text-left"
           key={genre}
           onClick={handleFilterClick}
           name={"genre"}
@@ -108,7 +111,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1 text-left"
           key={genre}
           onClick={handleFilterClick}
           name={"genre"}
@@ -123,10 +126,10 @@ const Books = () => {
   const getAllEditorial = () => {
     const editorials = books?.map((book) => book.editorial);
     const allEditorials = [...new Set(editorials)];
-    return allEditorials.map((editorial) =>
+    return allEditorials.sort().map((editorial) =>
       editorial == queryFilter.editorial ? (
         <button
-          className="bg-[#822626] text-white rounded p-1"
+          className="bg-[#822626] text-white rounded p-1 text-left "
           key={editorial}
           onClick={handleFilterClick}
           name={"editorial"}
@@ -136,7 +139,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1 text-left"
           key={editorial}
           onClick={handleFilterClick}
           name={"editorial"}
@@ -151,10 +154,10 @@ const Books = () => {
   const getAllAuthor = () => {
     const Authors = books?.map((book) => book.author);
     const AllAuthor = [...new Set(Authors)];
-    return AllAuthor.map((author) =>
+    return AllAuthor.sort().map((author) =>
       author == queryFilter.author ? (
         <button
-          className="bg-[#822626] text-white rounded p-1"
+          className="bg-[#822626] text-white rounded p-1 text-left"
           key={author}
           onClick={handleFilterClick}
           name={"author"}
@@ -164,7 +167,7 @@ const Books = () => {
         </button>
       ) : (
         <button
-          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1"
+          className="text-gray-500 hover:shadow-gray-300 hover:bg-[#e9cccc] hover:shadow-md rounded p-1 text-left"
           key={author}
           onClick={handleFilterClick}
           name={"author"}
@@ -178,7 +181,7 @@ const Books = () => {
 
   return (
     <main className="w-full py-12 ">
-      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] m-auto  flex flex-col gap-6">
+      <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] m-auto flex flex-col gap-6">
         <div className="flex flex-row items-center justify-between ">
           <h1 className="text-sm md:text-xl lg:text-2xl font-semibold uppercase text-[#822626] w-2/6">
             Productos
@@ -189,8 +192,8 @@ const Books = () => {
               value={queryFilter.search}
               onChange={handlerOnChangeSearchBar}
               type="text"
-              placeholder="Busqueda..."
-              className="w-full text-gray-600 border-gray-400 border-solid rounded h-7 lg:h-9 border-1"
+              placeholder="Búsqueda..."
+              className="w-full text-gray-600 border-gray-400 border-solid rounded h-7 lg:h-9 border-1 text-xs sm:text-sm md:text-base"
             />
           </div>
 
@@ -202,7 +205,7 @@ const Books = () => {
 
         <div className="w-full flex-1 items-start md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-1">
           <aside className="w-full md:sticky md:block">
-            <div className="flex flex-wrap gap-3 pb-5">
+            <div className="flex flex-wrap  pb-5">
               {queryFilter.genre ? (
                 <button
                   onClick={handleFilterClick}
@@ -210,7 +213,13 @@ const Books = () => {
                   name="genre"
                 >
                   {queryFilter.genre} {""}
-                  <FontAwesomeIcon icon={faCircleXmark} />
+                  <FontAwesomeIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClickClose("genre", "");
+                    }}
+                    icon={faCircleXmark}
+                  />
                 </button>
               ) : null}
               {queryFilter.editorial ? (
@@ -220,7 +229,13 @@ const Books = () => {
                   name="editorial"
                 >
                   {queryFilter.editorial}{" "}
-                  <FontAwesomeIcon icon={faCircleXmark} />
+                  <FontAwesomeIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClickClose("editorial", "");
+                    }}
+                    icon={faCircleXmark}
+                  />
                 </button>
               ) : null}
               {queryFilter.author ? (
@@ -230,34 +245,46 @@ const Books = () => {
                   onClick={handleFilterClick}
                 >
                   {queryFilter.author} {""}
-                  <FontAwesomeIcon icon={faCircleXmark} />
+                  <FontAwesomeIcon
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFilterClickClose("author", "");
+                    }}
+                    icon={faCircleXmark}
+                  />
                 </button>
               ) : null}
             </div>
             <Accordion
               title={"Género"}
-              classTitle={"text-lg font-semibold text-[#822626] hover:bg-gray-200 w-44 px-2 text-left"}
+              classTitle={
+                "text-lg font-semibold text-[#822626] hover:scale-110 hover:text-[#690202]  w-auto px-2 text-left"
+              }
               content={books && getAllGenre()}
               classContent={
-                "flex flex-col items-start gap-2 py-1 my-1 overflow-auto text-sm w-44 p-2 justify-items-start"
+                "flex flex-col items-start gap-2 py-1 my-1 overflow-auto text-sm w-44 p-2 justify-items-start "
               }
               classAccordion={""}
             />
             <Accordion
               title={"Editorial"}
-              classTitle={"text-lg font-semibold text-[#822626] hover:bg-gray-200 w-44 px-2 text-left"}
+              classTitle={
+                "text-lg font-semibold text-[#822626] hover:scale-110 hover:text-[#690202]  w-auto px-2 text-left"
+              }
               content={books && getAllEditorial()}
               classContent={
-                "flex flex-col items-start gap-2 py-1 my-1 text-sm w-44 p-2 justify-items-start"
+                "flex flex-col items-start gap-2 py-1 my-1 text-sm w-44 p-2 justify-items-start "
               }
               classAccordion={""}
             />
             <Accordion
               title={"Autor"}
-              classTitle={"text-lg font-semibold text-[#822626] hover:bg-gray-200 w-44 px-2 text-left"}
+              classTitle={
+                "text-lg font-semibold text-[#822626] hover:scale-110 hover:text-[#690202]  w-auto px-2 text-left"
+              }
               content={books && getAllAuthor()}
               classContent={
-                "flex flex-col items-start gap-2 py-1 my-1 overflow-auto text-sm w-44 p-2 justify-items-start text-left"
+                "flex flex-col items-start gap-2 py-1 my-1 overflow-auto text-sm w-44 p-2 justify-items-start "
               }
               classAccordion={""}
             />
@@ -301,50 +328,56 @@ const Books = () => {
               </div>
             )}
           </div>
-        </div>
-        <div className="flex justify-center items-center gap-10 bg-slate-600 w-full">
-          <button
-            onClick={changePage}
-            name="previous"
-            className="border-solid border-black border-2 p-2"
-          >
-            {"<"}
-          </button>
-          {filteredBooks?.map((x, index) => {
-            if (index % 12 == 0) {
-              if (index / 12 + 1 == currentPage.current) {
-                return (
-                  <button
-                    className="border-solid border-black border-2 p-2"
-                    onClick={changePage}
-                    key={index}
-                    value={index / 12 + 1}
-                    name="page"
-                  >
-                    {index / 12 + 1}
-                  </button>
-                );
-              } else
-                return (
-                  <button
-                    onClick={changePage}
-                    key={index}
-                    value={index / 12 + 1}
-                    name="page"
-                  >
-                    {index / 12 + 1}
-                  </button>
-                );
-            }
-          })}
-          <button
-            onClick={changePage}
-            name="next"
-            className="border-solid border-black border-2 p-2"
-          >
-            {">"}
-          </button>
-        </div>
+        
+        {filteredBooks?.length > 12 ? (
+          <div className="flex justify-center items-center sm:w-full md:col-start-2 col-end-3 m-auto w-[19rem]">
+            <div className="flex justify-between items-center bg-[#e9cccc] shadow-slate-300 shadow-xl w-full mt-4 h-min rounded-md">
+              <button
+                onClick={changePage}
+                name="previous"
+                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10 rounded-s-md "
+              >
+                {"<"}
+              </button>
+              {filteredBooks?.map((x, index) => {
+                if (index % 12 == 0) {
+                  if (index / 12 + 1 == currentPage.current) {
+                    return (
+                      <button
+                        className="bg-[#822626] text-white h-10 w-10"
+                        onClick={changePage}
+                        key={index}
+                        value={index / 12 + 1}
+                        name="page"
+                      >
+                        {index / 12 + 1}
+                      </button>
+                    );
+                  } else
+                    return (
+                      <button
+                        className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] h-10 w-10"
+                        onClick={changePage}
+                        key={index}
+                        value={index / 12 + 1}
+                        name="page"
+                      >
+                        {index / 12 + 1}
+                      </button>
+                    );
+                }
+              })}
+              <button
+                onClick={changePage}
+                name="next"
+                className="border-solid border-2 border-[#e9cccc] hover:border-[#822626] active:bg-[#822626] active:text-white h-10 w-10 rounded-e-md"
+              >
+                {">"}
+              </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
       </div>
     </main>
   );

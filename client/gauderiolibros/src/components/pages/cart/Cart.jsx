@@ -5,16 +5,18 @@ import { faCartShopping, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
+
 const Cart = () => {
-  const { products, deleteAllProducts, deleteProduct, totalPrice, loginOk, openModal } =
+  const { storageProducts, deleteAllProducts, deleteProduct, totalPrice, loginOk, openModal } =
     useContext(context);
+    
 
   const navigate = useNavigate();
 
   const handleClick = () => {
     if(loginOk)
-      {
-        let refCart = products.map(({ title, price, quantity }) => {
+    {
+      let refCart = storageProducts.map(({ title, price, quantity }) => {
       return { title, price, quantity };
     });
     axios
@@ -34,17 +36,17 @@ const Cart = () => {
   return (
     <main className="w-full min-h-[calc(100vh-230px)] ">
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] m-auto">
-        <h1 className="text-5xl p-3 mt-5 text-center rounded text-[#690202] font-bold ">
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl p-3 mt-5 text-center rounded text-[#690202] font-bold ">
           Realiza tu compra
         </h1>
 
-        {products.length > 0 ? (
+        {storageProducts.length > 0 ? (
           <div className="w-full my-5">
-            <div className="bg-[#525252] text-white p-2 rounded-t">
-              <h1 className="text-2xl ">Detalle de pedido</h1>
+            <div className="bg-[#525252] text-white p-2  rounded-t">
+              <h1 className=" text-base sm:text-lg md:text-xl lg:text-2xl">Detalle de pedido</h1>
             </div>
 
-            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 border-b border-gray-400">
+            <div className="grid w-full grid-cols-9 p-2 bg-gray-200 text-xs sm:text-sm md:text-base lg:text-lg border-b border-gray-400">
               <span className="col-span-2 font-medium text-center">
                 Artículo
               </span>
@@ -55,8 +57,8 @@ const Cart = () => {
               <span className="col-span-2 font-medium text-center">Precio</span>
             </div>
 
-            <div className={`overflow-y-auto h-96 min-h-full bg-gray-200`}>
-              {products.map((product) => (
+            <div className={`overflow-y-auto h-96 min-h-full bg-gray-200 text-xs sm:text-sm md:text-base lg:text-lg`}>
+              {storageProducts.map((product) => (
                 <div
                   className="grid items-center grid-cols-9 px-2 py-3  "
                   key={product.id}
@@ -91,23 +93,23 @@ const Cart = () => {
               ))}
             </div>
 
-            <div className="grid w-full items-center grid-cols-9 p-2 bg-gray-200 border-t border-gray-400 rounded-b">
-              <div className="col-span-4">
+            <div className="grid w-full items-center grid-cols-9 p-0.5 md:p-2 bg-gray-200 border-t border-gray-400 rounded-b">
+              <div className=" col-span-3 sm:col-span-4">
                 <button
                   onClick={deleteAllProducts}
-                  className="p-2 underline rounded-sm transition-colors border hover:border-[#822626] hover:text-[#822626]"
+                  className="p-2 text-xs sm:text-sm md:text-base lg:text-lg underline rounded-sm transition-colors border hover:border-[#822626] hover:text-[#822626]"
                 >
                   Eliminar todo
                 </button>
               </div>
 
-              <span className="col-span-2 font-bold text-center">Total:</span>
-              <span className="col-span-2 text-center">$ {totalPrice}</span>
+              <span className="col-span-2 font-bold text-center text-xs sm:text-sm md:text-base lg:text-lg">Total:</span>
+              <span className="col-span-2 text-center text-xs sm:text-sm md:text-base lg:text-lg">$ {totalPrice}</span>
 
-              <div className="flex flex-row items-end justify-end w-full">
+              <div className="flex flex-row items-end justify-end w-full col-span-2 sm:col-span-1">
                 <button
                   onClick={handleClick}
-                  className="w-full h-full text-xs sm:text-sm md:text-base lg:text-lg text-center py-1 px-0.5 md:py-2 md:px-1 rounded-sm transition-colors bg-[#822626] hover:bg-[#262525] text-white"
+                  className="w-full h-full text-[0.6rem] sm:text-sm md:text-base lg:text-lg text-center py-1 px-0.5 md:py-2 md:px-1 rounded-sm transition-colors bg-[#822626] hover:bg-[#262525] text-white"
                 >
                   Comprar
                 </button>

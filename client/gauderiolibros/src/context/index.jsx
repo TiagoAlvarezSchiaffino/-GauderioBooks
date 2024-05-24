@@ -4,9 +4,8 @@ import { useCart } from "../components/hooks/useCart";
 
 export const context = createContext();
 
-
-
 const ContextProvider = ({ children }) => {
+
   const [userData, setUserData] = useState(null)
 
   const {
@@ -17,6 +16,7 @@ const ContextProvider = ({ children }) => {
     totalPrice,
     badgeCount,
   } = useCart();
+
   const {
     form,
     errors,

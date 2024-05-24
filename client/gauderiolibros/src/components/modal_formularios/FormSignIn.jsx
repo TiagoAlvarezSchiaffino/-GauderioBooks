@@ -11,7 +11,6 @@ const FormSignIn = () => {
     form,
     errors,
     loading,
-    
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,
@@ -46,8 +45,7 @@ const FormSignIn = () => {
       />
       {errors.userNameError && (
         <p className="font-bold text-red-600 text-xs ">
-          Campo requerido, solo se acepta letras, números y guiones.
-          {/*--error en la validación---*/}
+          Campo requerido, solo se acepta letras, numeros y guiones.
         </p>
       )}
       <label className="font-bold py-2 " htmlFor="fullname">
@@ -66,7 +64,6 @@ const FormSignIn = () => {
       {errors.fullNameError && (
         <p className="font-bold text-red-600 text-xs ">
           Campo requerido, solo se acepta letras y espacios
-          {/*--error en la validación---*/}
         </p>
       )}
       <label className="font-bold py-2" htmlFor="email">
@@ -86,7 +83,6 @@ const FormSignIn = () => {
       {errors.emailError && (
         <p className="font-bold text-red-600 text-xs ">
           Campo requerido, el formato de email es incorrecto.{" "}
-          {/*--error en la validación--- */}
         </p>
       )}
       <label className="font-bold rounded py-2" htmlFor="password">
@@ -105,7 +101,7 @@ const FormSignIn = () => {
       />
       
         <p className={` ${errors.passwordError? 'font-bold text-red-600':'text-gray-600' } p-1 text-xs`}>
-          Campo requerido, solo debe contener entre 4 a 8 dígitos{/*--error en la validación---*/}
+          Campo requerido, solo debe contener entre 4 a 8 digitos
         </p>
       
       <div className="border-2 rounded mt-5 p-3 flex justify-center items-center">

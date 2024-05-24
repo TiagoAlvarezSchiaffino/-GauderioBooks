@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import Modal from "./Modal";
-import FormLogin from "./FormLogin";
 import { context } from "../../context";
+import FormLogIn from "./FormLogin";
 import FormSignIn from "./FormSignIn";
 
 const Modals = () => {
@@ -10,7 +10,7 @@ const Modals = () => {
   return (
     <div>
       <Modal isOpen={isOpen} closeModal={closeModal}>
-        {isLogin ? <FormLogin /> : <FormSignIn />}
+        {isLogin ? <FormLogIn /> : <FormSignIn />}
       </Modal>
     </div>
   );

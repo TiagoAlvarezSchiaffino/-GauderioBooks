@@ -25,10 +25,9 @@ export const useForm = () => {
   const [userData, setUserData] = useLocalStorage("userData", {});
 
   const [loading, setLoading] = useState(false);
-
-  const [isOpen, setIsOpen] = useState(false); //
-  const openModal = () => setIsOpen(true); //
-  const closeModal = () => setIsOpen(false); //
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   const handleCloseSesion = () => {
     setLoginOk(false);
@@ -115,7 +114,7 @@ export const useForm = () => {
     }
     return errors;
   };
-
+  
   const handleOnFocusEmail = () => {
     validateForm("emailError", false);
     return errors;
@@ -173,7 +172,6 @@ export const useForm = () => {
         });
     }
   };
-
 
   return {
     isOpen,

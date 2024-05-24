@@ -7,12 +7,9 @@ const FormLogin = () => {
     loginOk,
     setLoginOk,
     form,
-    loading,
-    
     handleChange,
     handleSubmit,
   } = useContext(context);
-
 
   const handleIsLogin = () => {
     setIsLogin(false);

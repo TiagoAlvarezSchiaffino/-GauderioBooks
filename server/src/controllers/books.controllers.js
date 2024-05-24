@@ -9,14 +9,15 @@ export const getAllBooks = async (req, res) => {
     const { author, editorial, genre, search } = req.query
 
     if (search) {
-      filter = { ...filter, title: search }
+      console.log(search)
+      filter = {title: search}
     }
     else {
       if (author) {
         if(author.includes(',')){
           const data = author.split(',')
           const regexArray = data.map(g => ({ author: { $regex: new RegExp(g, 'i') } }));
-          filter = { $and: regexArray };
+          filter = { ...filter, $and: regexArray };
         }else{
           filter = { ...filter, author: author }
         }
@@ -26,7 +27,7 @@ export const getAllBooks = async (req, res) => {
         if(editorial.includes(',')){
           const data = editorial.split(',')
           const regexArray = data.map(g => ({ editorial: { $regex: new RegExp(g, 'i') } }));
-          filter = { $and: regexArray };
+          filter = { ...filter, $and: regexArray };
         }else{
           filter = { ...filter, editorial: editorial }
         }
@@ -36,12 +37,11 @@ export const getAllBooks = async (req, res) => {
         if(genre.includes(',')){
           const data = genre.split(',')
           const regexArray = data.map(g => ({ genre: { $regex: new RegExp(g, 'i') } }));
-          filter = { $and: regexArray };
+          filter = { ...filter, $and: regexArray };
         }else{
           filter = { ...filter, genre: genre};
         }
       }
-
     }
     const regexFilter = {};
     for (const key in filter) {
@@ -49,7 +49,7 @@ export const getAllBooks = async (req, res) => {
     }
 
     const allBooks = await Book.find({});
-    const filteredBooks = await Book.find(filter)
+    const filteredBooks = await Book.find(search?regexFilter:filter)
 
     res.status(201).json({ allBooks: allBooks, filteredBooks: filteredBooks });
 

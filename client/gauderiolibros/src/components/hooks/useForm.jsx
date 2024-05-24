@@ -1,7 +1,7 @@
 import { useContext, useRef, useState } from "react";
 import axios from "axios";
 import { useLocalStorage } from "./useLocalStorage";
-import { context } from "../../context";
+import Swal from "sweetalert2";
 
 const initialForm = {
   username: "",
@@ -11,21 +11,21 @@ const initialForm = {
 };
 
 export const useForm = () => {
-
-
   const [isLogin, setIsLogin] = useState(false);
   const formIsOkRef = useRef(false);
-  const [form, setForm] = useState(initialForm);//
+  const [form, setForm] = useState(initialForm);
   const [errors, setErrors] = useState({
     userNameError: false,
     fullNameError: false,
     emailError: false,
     passwordError: false,
   });
+
   const [loginOk, setLoginOk] = useLocalStorage("loginOk", false);
   const [userData, setUserData] = useLocalStorage("userData", {});
 
   const [loading, setLoading] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false); //
   const openModal = () => setIsOpen(true); //
   const closeModal = () => setIsOpen(false); //
@@ -44,23 +44,27 @@ export const useForm = () => {
     const { username, fullname, email, password } = form;
     const { userNameError, fullNameError, emailError, passwordError } = errors;
     if (isLogin) {
-      email === '' && validateForm("emailError", true);
-      password==='' && validateForm("passwordError", true);
-      if (!emailError && !passwordError) {
+      
+      if (email!=='' && password!=='' && !emailError && !passwordError) {
         formIsOkRef.current = true;
       } else {
         formIsOkRef.current = false;
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Hubo un error en el formulario",
+          footer: '<a href="#">Por favor complete los campos correctamente.</a>',
+        });
       }
     } else {
-      username === '' && validateForm("userNameError", true);
-      fullname === '' && validateForm("fullNameError", true);
-      email === '' && validateForm("emailError", true);
-      password === '' && validateForm("passwordError", true);
-      if (!userNameError && !fullNameError && !emailError && !passwordError) {
+      if (username !=='' && fullname!=='' && email!=='' && password!=='' && !userNameError && !fullNameError && !emailError && !passwordError) {
         formIsOkRef.current = true;
-        console.log('formOk', username, fullname, email, password, 'error:', userNameError, fullNameError, emailError, passwordError)
       } else {
-        console.log('form no ok', username, fullname, email, password, 'error:', userNameError, fullNameError, emailError, passwordError)
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Hubo un error en el formulario",
+          footer: '<a href="#">Por favor complete los campos correctamente.</a>',});
         formIsOkRef.current = false;
       }
     }
@@ -74,6 +78,7 @@ export const useForm = () => {
       [name]: value,
     });
   };
+
   const validateForm = (nameError, valueError) => {
     setErrors({
       ...errors,
@@ -82,7 +87,7 @@ export const useForm = () => {
   };
 
   const handleKeyUpUser = () => {
-    let regExpUser = /^[a-zA-Z0-9_\-]+$/;
+    let regExpUser = /^[a-zA-Z0-9_-]+$/;
     if (!regExpUser.test(form.username.trim())) {
       validateForm("userNameError", true);
     } else {
@@ -125,13 +130,13 @@ export const useForm = () => {
     }
     return errors;
   };
-
   const handleOnFocusPassword = () => {
     validateForm("passwordError", false);
     return errors;
   };
 
   const handleSubmit = (e) => {
+
     e.preventDefault();
     validationSignInOk();
     if (formIsOkRef.current) {
@@ -149,13 +154,26 @@ export const useForm = () => {
           closeModal();
         })
         .catch((er) => {
-          console.log(er);
-          alert("Error en el registro, por favor vuelve a intentarlo");
+          isLogin
+            ? Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Hubo un error en su email o contraseña",
+                footer: '<a href="#">Por favor vuelve a intentarlo.</a>',
+              })
+            : Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Hubo un error",
+                footer: '<a href="#">Por favor vuelve a intentarlo.</a>',
+              });
+
           setForm(initialForm);
           handleCloseSesion();
         });
     }
   };
+
 
   return {
     isOpen,
@@ -169,7 +187,6 @@ export const useForm = () => {
     setIsLogin,
     handleCloseSesion,
     loading,
-    
     handleChange,
     handleKeyUpUser,
     handleKeyUpFullName,

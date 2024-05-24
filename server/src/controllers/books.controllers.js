@@ -4,7 +4,6 @@ import { User } from "../models/user.model.js";
 export const getAllBooks = async (req, res) => {
   try {
 
-
     var filter = {}
     const { author, editorial, genre, search } = req.query
 
@@ -68,10 +67,9 @@ export const postBook = async (req, res) => {
 
       return res.status(401).json({
         ok: false,
-        msg: 'No tiene privilegios para realizar esta accion'
+        msg: 'You do not have privileges to perform this action'
       })
     }
-
 
     const data = req.body;
     const newBook = new Book(data);
@@ -87,14 +85,13 @@ export const updateBook = async (req, res) => {
   try {
 
     const user = req.user
-
     const userFound = await User.findById(user.uid)
 
     if (userFound.role !== 'admin') {
 
       return res.status(401).json({
         ok: false,
-        msg: 'No tiene privilegios para realizar esta accion'
+        msg: 'You do not have privileges to perform this action'
       })
     }
 
@@ -107,7 +104,7 @@ export const updateBook = async (req, res) => {
         $set: data,
       }
     );
-    res.status(201).send("EL libro ha sido modificado con exito");
+    res.status(201).send("The book has been successfully modified");
   } catch (error) {
     res.status(400).send(error.message);
   }
@@ -119,7 +116,7 @@ export const getBookById = async (req, res) => {
     const result = await Book.find({ _id: id });
     res.status(200).json(result);
   } catch (error) {
-    res.status(400).send(`No existe un libro con ese ID`);
+    res.status(400).send(`There is no book with that ID`);
   }
 };
 
@@ -127,22 +124,21 @@ export const deleteBook = async (req, res) => {
   try {
 
     const user = req.user
-
     const userFound = await User.findById(user.uid)
 
     if (userFound.role !== 'admin') {
 
       return res.status(401).json({
         ok: false,
-        msg: 'No tiene privilegios para realizar esta accion'
+        msg: 'You do not have privileges to perform this action'
       })
     }
 
     const id = req.params.id;
 
     await Book.deleteOne({ _id: id });
-    res.status(200).send("El libro fue eliminado con exito");
+    res.status(200).send("The book was successfully deleted");
   } catch (error) {
-    res.status(400).send(`No existe un libro con ese ID`);
+    res.status(400).send(`There is no book with that ID`);
   }
 };

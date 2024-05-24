@@ -3,30 +3,29 @@ import Stripe from "stripe"
 const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY)
 
 export const createSession = async (req, res) => {
-    let nuevoArreglo = [];
+    let newArray = [];
     const data = req.body
 
-    data.forEach((producto) => {
-        nuevoArreglo.push({
+    data.forEach((product) => {
+        newArray.push({
             price_data: {
                 product_data: {
-                    name: producto.title
+                    name: product.title
                 },
                 currency: 'usd',
-                unit_amount: producto.price * 100
+                unit_amount: product.price * 100
             },
-            quantity: producto.quantity
+            quantity: product.quantity
         });
     });
 
 
     const session = await stripe.checkout.sessions.create({
-        line_items: nuevoArreglo,
+        line_items: newArray,
         mode: 'payment',
         success_url: 'https://gauderiolibros.vercel.app/',
         cancel_url: 'https://gauderiolibros.vercel.app/books'
     })
 
     return res.json(session)
-
 }

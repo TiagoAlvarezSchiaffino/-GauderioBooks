@@ -3,19 +3,19 @@ import { Link } from "react-router-dom";
 
 const BannerCarrousel = () => {
   return (
-    <div className="h-36 sm:h-64 md:h-80 lg:h-96 rounded-none">
+    <div className="rounded-none h-36 sm:h-64 md:h-80 lg:h-96">
       <Carousel id="carousel">
         <Link to="/books/"className="h-full">
-          <img  className=" h-full w-full" src={image1} alt="Banner Image 1" />
+          <img  className="w-full h-full " src={} alt="Banner Image 1" />
         </Link>
         <Link to="/books/" className="h-full">
-          <img  className=" h-full w-full" src={image2} alt="Banner Image 2" />
+          <img  className="w-full h-full " src={} alt="Banner Image 1" />
         </Link>
         <Link to="/books/"className="h-full">
-          <img  className=" h-full w-full" src={image3} alt="Banner Image 3" />
+          <img  className="w-full h-full " src={} alt="Banner Image 1" />
         </Link>
         <Link to="/books/" className="h-full">
-          <img  className=" h-full w-full" src={image4} alt="Banner Image 4" />
+          <img  className="w-full h-full " src={} alt="Banner Image 1" />
         </Link>
       </Carousel>
     </div>

@@ -4,7 +4,7 @@ import Cart from "../components/pages/cart/Cart";
 import Faq from "../components/pages/faq/Faq";
 import Home from "../components/pages/home/Home";
 import AdminDashBoard from "../components/pages/AdminDashboard/AdminDashboard";
-import BookForm from "..//components/pages/AdminDashboard/AdminComponents/BookForm"
+import BookForm from "../components/pages/AdminDashboard/AdminComponents/BookForm"
 
 export const menuRoutes = [
   {

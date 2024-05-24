@@ -8,7 +8,7 @@ const Home = () => {
 
   useEffect(() => {
     getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
-  }, [])
+  }, [getDataUser])
 
   return (
     <main className="w-full">

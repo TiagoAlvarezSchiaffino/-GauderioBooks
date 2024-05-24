@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "./BooksComponents/Card";
+import libroSpinner from "../../../assets/spinner/Ybin.gif";
 import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,39 +27,41 @@ const Books = () => {
     current: 1,
   });
 
-  let url = `https://gauderiolibros.vercel.app/books/?genre=${queryFilter.genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
       .then((res) => res.json())
       .then((data) => setBooks(data.allBooks));
 
-      window.scrollTo({
-        top:0,
-        behavior:'smooth'
-      })
-
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, []);
+
   const genre = searchParams.get("genre");
+
   useEffect(() => {
     if (genre) {
       setQueryFilter({ ...queryFilter, genre: genre });
-      url = `https://gauderiolibros.vercel.app/books/?genre=${genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
     }
-  }, []);
+  }, [genre, queryFilter]);
+
   useEffect(() => {
+    let url = `https://gauderiolibros.vercel.app/books/?genre=${queryFilter.genre}&editorial=${queryFilter.editorial}&author=${queryFilter.author}&search=${queryFilter.search}`;
+
     fetch(url)
       .then((res) => res.json())
       .then((data) => setFilteredBooks(data.filteredBooks));
-  }, [url]);
+  }, [queryFilter]);
 
   const handleFilterClick = (e) => {
     const { name, value } = e.target;
-    if (queryFilter[name] == value) {
+    if (queryFilter[name] === value) {
       setQueryFilter({ ...queryFilter, [name]: "" });
     } else {
       setQueryFilter({
         ...queryFilter,
-        [name]: value
+        [name]: value,
       });
     }
   };
@@ -77,7 +80,7 @@ const Books = () => {
     e.preventDefault();
     const { name, value } = e.target;
 
-    if (name == "previous" && currentPage.current !== 1) {
+    if (name === "previous" && currentPage.current !== 1) {
       setCurrentPage({
         ...currentPage,
         min: currentPage.min - 12,
@@ -85,7 +88,7 @@ const Books = () => {
         current: currentPage.current - 1,
       });
     } else if (
-      name == "next" &&
+      name === "next" &&
       currentPage.current !== Math.ceil(filteredBooks.length / 12)
     ) {
       setCurrentPage({
@@ -94,7 +97,7 @@ const Books = () => {
         max: currentPage.max + 12,
         current: currentPage.current + 1,
       });
-    } else if (name == "page") {
+    } else if (name === "page") {
       setCurrentPage({
         ...currentPage,
         current: Number(value),
@@ -161,9 +164,9 @@ const Books = () => {
   };
 
   const getAllAuthor = () => {
-    const Authors = books?.map((book) => book.author);
-    const AllAuthor = [...new Set(Authors)];
-    return AllAuthor.map((author) =>
+    const authors = books?.map((book) => book.author);
+    const allAuthors = [...new Set(authors)];
+    return allAuthors.map((author) =>
       author === queryFilter.author ? (
         <button
           className="bg-[#822626] text-white rounded p-1 text-left"
@@ -191,7 +194,7 @@ const Books = () => {
   return (
     <main className="w-full min-h-screen py-12">
       <div className="w-[95%] sm:w-[85%] md:w-[75%] lg:w-[65%] m-auto  flex flex-col gap-6">
-        <div className="flex flex-row items-center justify-between ">
+        <div className="flex flex-row items-center justify-between">
           <h1 className="text-sm md:text-xl lg:text-2xl font-semibold uppercase text-[#822626] w-2/6">
             Productos
           </h1>
@@ -320,8 +323,8 @@ const Books = () => {
                 </p>
                 <img
                   className="h-auto p-10 w-52"
-                  src={}
-                  alt=""
+                  src={libroSpinner}
+                  alt="spinner"
                 />
               </div>
             )}

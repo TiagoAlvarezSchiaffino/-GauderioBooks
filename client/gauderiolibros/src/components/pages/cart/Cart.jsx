@@ -24,7 +24,7 @@ const Cart = () => {
       });
       axios
         .post(
-          "",
+          "https://gauderiolibros.vercel.app/pay/create-checkout-session",
           refCart
         )
         .then((res) => {

@@ -12,12 +12,8 @@ export const generateJWT = (uid, name) => {
                 console.log(err);
                 reject('fail: not generator token')
             }
-
             resolve(token)
         })
-
-
-
     })
 
 }

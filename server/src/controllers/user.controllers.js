@@ -1,4 +1,4 @@
-import { generarJWT } from "../helpers/jwt.js";
+import { generateJWT } from "../helpers/jwt.js";
 import { Book } from "../models/book.model.js";
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
@@ -14,10 +14,9 @@ export const getAllUsers = async (req, res) => {
 
             return res.status(401).json({
                 ok: false,
-                msg: 'No tiene privilegios para realizar esta accion'
+                msg: 'You do not have privileges to perform this action'
             })
         }
-
 
         const users = await User.find()
         res.send(users)
@@ -35,7 +34,6 @@ const getUserById = async (req, res) => {
     }
 }
 
-
 export const createUser = async (req, res) => {
     try {
         const { username, fullname, email, password } = req.body
@@ -46,9 +44,9 @@ export const createUser = async (req, res) => {
 
         await newUser.save()
 
-        const token = await generarJWT(newUser._id, newUser.name)
+        const token = await generateJWT(newUser._id, newUser.name)
 
-        res.status(201).json({
+        res.status(201).json({  
             message: 'User created successfully',
             user: newUser,
             token
@@ -79,16 +77,16 @@ export const loginUsuario = async (req, res) => {
     const { email, password } = req.body;
     try {
 
-        const usuariobuscado = await User.findOne({ email })
+        const searcheduser = await User.findOne({ email })
 
-        if (!usuariobuscado) {
+        if (!searcheduser) {
             return res.status(400).json({
                 ok: false,
                 msg: 'The email entered does not exist'
             })
         }
 
-        const validPassword = bcrypt.compareSync(password, usuariobuscado.password)
+        const validPassword = bcrypt.compareSync(password, searcheduser.password)
         if (!validPassword) {
             return res.status(400).json({
                 ok: false,
@@ -96,19 +94,17 @@ export const loginUsuario = async (req, res) => {
             })
         }
 
-        const token = await generarJWT(usuariobuscado.id, usuariobuscado.fullname)
-
-
+        const token = await generateJWT(searcheduser.id, searcheduser.fullname)
 
         res.json({
             status: 'successful login',
             token,
             user: {
-                "_id": usuariobuscado._id,
-                "username": usuariobuscado.username,
-                "fullname": usuariobuscado.fullname,
-                "email": usuariobuscado.email,
-                "role": usuariobuscado.role
+                "_id": searcheduser._id,
+                "username": searcheduser.username,
+                "fullname": searcheduser.fullname,
+                "email": searcheduser.email,
+                "role": searcheduser.role
             },
         })
 
@@ -116,7 +112,6 @@ export const loginUsuario = async (req, res) => {
         console.error(error);
     }
 };
-
 
 export const getUserCart = async (req, res) => {
     try {
@@ -129,7 +124,6 @@ export const getUserCart = async (req, res) => {
                 msg: 'User not found'
             })
         }
-
 
         res.status(200).json({
             ok: true,
@@ -161,18 +155,16 @@ export const addToCart = async (req, res) => {
 
         const productExist = user.cart.findIndex(p => p._id === pid);
 
-
         if (productExist === -1) {
 
-            user.cart.push({ title, price, cantidad: productQuantity.cantidad, _id: pid });
+            user.cart.push({ title, price, quantity: productQuantity.quantity, _id: pid });
             await user.save();
         }
         else {
 
-            user.cart[productExist].cantidad += productQuantity.cantidad
+            user.cart[productExist].quantity += productQuantity.quantity
             await user.save();
         }
-
 
         res.status(200).json({
             ok: true,
@@ -248,7 +240,6 @@ export const RemoveFromCart = async (req, res) => {
     }
 }
 
-
 export const createAdmin = async (req, res) => {
     try {
         const user = req.user
@@ -259,7 +250,7 @@ export const createAdmin = async (req, res) => {
 
             return res.status(401).json({
                 ok: false,
-                msg: 'No tiene privilegios para realizar esta accion'
+                msg: 'You do not have privileges to perform this action'
             })
         }
 
@@ -272,7 +263,7 @@ export const createAdmin = async (req, res) => {
 
         await newUser.save()
 
-        const token = await generarJWT(newUser._id, newUser.name)
+        const token = await generateJWT(newUser._id, newUser.name)
 
         res.status(201).json({
             message: 'User created successfully',

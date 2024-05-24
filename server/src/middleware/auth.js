@@ -5,7 +5,7 @@ export const authenticateToken = (req, res, next) => {
     if (!tokenBearer) {
         return res.status(401).json({
             ok: false,
-            msg: 'No hay token en la peticion'
+            msg: 'There is no token in the request'
         });
     }
 
@@ -17,7 +17,7 @@ export const authenticateToken = (req, res, next) => {
         if (err) {
             return res.status(403).json({
                 ok: false,
-                msg: 'error de token'
+                msg: 'token error'
             })
         }
         req.user = user;

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { context } from "../../../../context";
@@ -7,25 +7,25 @@ import Swal from 'sweetalert2'
 
 export default function BookForm() {
   const { getDataUser, userData } = useContext(context)
-  useEffect(() => {
-    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
-  }, [])
   const { id } = useParams();
   const [formData, setFormData] = useState();
   const [book, setBook] = useState();
 
-  if (id) {
-    useEffect(() => {
+  useEffect(() => {
+    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
+  }, [getDataUser]);
+
+  useEffect(() => {
+    if (id) {
       fetch(`https://gauderiolibros.vercel.app/books/${id}`)
         .then((res) => res.json())
         .then((data) => setBook(data[0]));
-
-    }, [id]);
-  }
+    }
+  }, [id]);
 
   useEffect(() => {
     if (book) {
-      if (!id && book && book.title) {
+      if (!id && book.title) {
         setFormData({
           title: "",
           author: "",
@@ -53,7 +53,7 @@ export default function BookForm() {
         });
       }
     }
-  }, [book]);
+  }, [book, id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -112,7 +112,7 @@ export default function BookForm() {
         .catch((error) => window.alert(error.message));
     } else {
       Swal.fire({
-        title: "Quieres guardar los cambios?",
+        title: "¿Quieres guardar los cambios?",
         showDenyButton: true,
         showCancelButton: true,
         confirmButtonText: "Guardar",
@@ -143,11 +143,12 @@ export default function BookForm() {
           window.location.href = "/adminDashboard";
         })
         .catch((error) => window.alert(error.message));
-        Swal.fire("Guardado!", "", "success");
-      } else if (result.isDenied) {
-        Swal.fire("No se Guardaron Cambios", "", "info");
-      }
-    })
+          
+          Swal.fire("Guardado!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("No se Guardaron Cambios", "", "info");
+        }
+      })
     }
   };
 
@@ -206,7 +207,7 @@ export default function BookForm() {
               />
             </div>
             <div className="mb-6">
-              <label className="font-bold mb-2 text-center">Género:</label>
+              <label className="font-bold mb-2 text-center">Genero:</label>
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
                 type="text"

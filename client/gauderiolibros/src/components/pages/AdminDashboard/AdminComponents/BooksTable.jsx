@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { context } from "../../../../context";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 const booksColumns = [
   {
@@ -48,10 +48,12 @@ const booksColumns = [
 ];
 
 export default function AdminBooksTable() {
-  const { userData, getDataUser } = useContext(context)
+  const { userData, getDataUser } = useContext(context);
+
   useEffect(() => {
-    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {})
-  }, [])
+    getDataUser(JSON.parse(localStorage.getItem('userData'))?.data ?? {});
+  }, [getDataUser]);
+
   const [books, setBooks] = useState([]);
   const [sorting, setSorting] = useState();
   const [filtering, setFiltering] = useState("");
@@ -75,7 +77,7 @@ export default function AdminBooksTable() {
     const { token } = userData;
 
     Swal.fire({
-      title: "Estas seguro de eliminar?",
+      title: "¿Estas seguro de eliminar?",
       text: "Esta accion no tiene marcha atras!",
       icon: "warning",
       showCancelButton: true,
@@ -89,23 +91,22 @@ export default function AdminBooksTable() {
             'Authorization': `Bearer ${token}`
           }
         })
-          .then(response => {
-            setTimeout(function () {
-              window.location.reload();
-            }, 2000);
-          }
-          )
-          .catch(error => window.alert("Error al eliminar el libro"))
-
-
-        Swal.fire({
-          title: "Eliminado!",
-          text: "El libro ha sido eliminado.",
-          icon: "success"
+        .then(() => {
+          Swal.fire({
+            title: "Eliminado!",
+            text: "El libro ha sido eliminado.",
+            icon: "success"
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        })
+        .catch(() => {
+          window.alert("Error al eliminar el libro");
         });
       }
     });
-  }
+  };
 
   useEffect(() => {
     fetch("https://gauderiolibros.vercel.app/books")
@@ -158,7 +159,7 @@ export default function AdminBooksTable() {
 
                         {header.column.getIsSorted()
                           ? { asc: "⬆️", desc: "⬇️" }[
-                          header.column.getIsSorted()
+                            header.column.getIsSorted()
                           ]
                           : null}
                       </div>
